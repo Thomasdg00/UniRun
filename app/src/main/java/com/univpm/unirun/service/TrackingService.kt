@@ -63,7 +63,6 @@ class TrackingService : Service() {
     }
 
     private fun handleStart() {
-        TrackingRepository.resetState()
         TrackingRepository.startTracking()
         startForeground(NOTIFICATION_ID, buildNotification("Registrazione in corso..."))
         startLocationUpdates()

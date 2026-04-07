@@ -27,6 +27,7 @@ import com.mapbox.maps.plugin.annotation.generated.PolylineAnnotationManager
 import com.mapbox.maps.plugin.annotation.generated.PolylineAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPolylineAnnotationManager
 import com.univpm.unirun.R
+import com.univpm.unirun.data.repository.LatLng
 import com.univpm.unirun.data.repository.TrackingState
 import com.univpm.unirun.data.repository.TrackingStatus
 import com.univpm.unirun.utils.PermissionManager

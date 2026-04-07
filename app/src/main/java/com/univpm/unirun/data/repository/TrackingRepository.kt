@@ -14,7 +14,7 @@ object TrackingRepository {
     val state: StateFlow<TrackingState> = _state.asStateFlow()
 
     fun startTracking() {
-        _state.update { it.copy(status = TrackingStatus.RUNNING) }
+        _state.value = TrackingState(status = TrackingStatus.RUNNING)
     }
 
     fun pauseTracking() {

@@ -12,6 +12,11 @@ import com.univpm.unirun.service.TrackingService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import com.univpm.unirun.data.db.AppDatabase
+import com.univpm.unirun.data.db.ActivityEntity
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TrackingViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -41,7 +46,24 @@ class TrackingViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun stopTracking() {
-        sendServiceAction(TrackingService.ACTION_STOP)
+        viewModelScope.launch {
+            val state = TrackingRepository.state.value
+            val entity = ActivityEntity(
+                userId = "local_user",
+                sportType = "RUN",
+                startTimestamp = System.currentTimeMillis() - (state.elapsedSeconds * 1000L),
+                durationSeconds = state.elapsedSeconds,
+                distanceMeters = state.distanceMeters,
+                calories = 0f,
+                polylineJson = "",
+                gearId = null
+            )
+            withContext(Dispatchers.IO) {
+                AppDatabase.getInstance(getApplication()).activityDao().insert(entity)
+            }
+            sendServiceAction(TrackingService.ACTION_STOP)
+            TrackingRepository.resetState()
+        }
     }
 
     private fun sendServiceAction(action: String) {
