@@ -1,0 +1,29 @@
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Mapbox token e Firebase config: NON committare mai questi file
+google-services.json
+secrets.properties
+*.keystore
+*.jks
+mapbox_token.txt
+
+# Room schema export (opzionale, spesso ignorato)
+app/schemas/
+
+# File di sistema
+Thumbs.db
+
+# Dipendenze Node (se usi script JS per docx/script)
+node_modules/
