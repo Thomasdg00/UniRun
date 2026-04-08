@@ -2,6 +2,7 @@ package com.univpm.unirun.data.db
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
@@ -22,7 +23,8 @@ data class UserEntity(
             childColumns = ["userId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["userId"])]
 )
 data class ActivityEntity(
     @PrimaryKey(autoGenerate = true)
@@ -46,7 +48,8 @@ data class ActivityEntity(
             childColumns = ["userId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["userId"])]
 )
 data class GearEntity(
     @PrimaryKey(autoGenerate = true)
