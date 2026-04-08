@@ -7,16 +7,24 @@ plugins {
 
 android {
     namespace = "com.univpm.unirun"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.univpm.unirun"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = java.util.Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localProperties.load(localPropertiesFile.inputStream())
+        }
+        manifestPlaceholders["MAPBOX_PUBLIC_TOKEN"] =
+            localProperties.getProperty("MAPBOX_PUBLIC_TOKEN") ?: ""
     }
 
     buildTypes {
@@ -62,7 +70,7 @@ dependencies {
     // FusedLocation
     implementation("com.google.android.gms:play-services-location:21.2.0")
 
-    // Mapbox (mappa)
+    // Mapbox
     implementation("com.mapbox.maps:android:11.3.0")
 
     // Navigation
@@ -74,7 +82,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
 
-    // DataStore (profilo locale)
+    // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     // MPAndroidChart
