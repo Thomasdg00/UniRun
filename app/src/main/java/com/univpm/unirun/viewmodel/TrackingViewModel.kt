@@ -12,12 +12,6 @@ import com.univpm.unirun.service.TrackingService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import com.univpm.unirun.data.db.AppDatabase
-import com.univpm.unirun.data.db.ActivityEntity
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
 class TrackingViewModel(application: Application) : AndroidViewModel(application) {
 
     val trackingState: StateFlow<TrackingState> = TrackingRepository.state.stateIn(
