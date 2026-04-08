@@ -100,8 +100,17 @@ object TrackingRepository {
     }
 
     private fun calculatePace(distanceMeters: Float, elapsedSeconds: Long): Int {
-        if (distanceMeters < 10f || elapsedSeconds == 0L) return 0
+        // ✅ PROTEZIONE MIGLIORATA: Verificare sia distanza che tempo
+        if (distanceMeters < MIN_DISTANCE_FOR_PACE_CALCULATION || elapsedSeconds == 0L) {
+            return 0
+        }
         // sec / km
         return (elapsedSeconds / (distanceMeters / 1000f)).toInt()
+    }
+
+    companion object {
+        // ✅ Costante denominata per il calcolo della pace
+        // Minima distanza richiesta per calcolare un pace significativo (20 metri)
+        private const val MIN_DISTANCE_FOR_PACE_CALCULATION = 20f
     }
 }

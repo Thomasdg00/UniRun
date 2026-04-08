@@ -126,8 +126,13 @@ class ActivityDetailFragment : Fragment(R.layout.fragment_activity_detail) {
             val paceSec = paceSeconds % 60
             tvDetailPace.text = "%d:%02d min/km".format(paceMin, paceSec)
 
-            val speedKmh = distanceKm / (activity.durationSeconds / 3600f)
-            tvDetailSpeed.text = "%.1f km/h".format(speedKmh)
+            // ✅ PROTEZIONE: Verificare divisione per zero
+            if (activity.durationSeconds > 0) {
+                val speedKmh = distanceKm / (activity.durationSeconds / 3600f)
+                tvDetailSpeed.text = "%.1f km/h".format(speedKmh)
+            } else {
+                tvDetailSpeed.text = "0.0 km/h"
+            }
         } else {
             tvDetailPace.text = "0:00 min/km"
             tvDetailSpeed.text = "0.0 km/h"

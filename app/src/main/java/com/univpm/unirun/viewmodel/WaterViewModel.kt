@@ -33,7 +33,10 @@ class WaterViewModel(application: Application) : AndroidViewModel(application) {
     init {
         viewModelScope.launch {
             val prefs = UserPreferencesRepository(application).userPreferencesFlow.first()
-            _dailyGoalMl.value = (prefs.weightKg * 33).toInt().coerceIn(1500, 4000)
+            // ✅ COSTANTE DENOMINATA: Formula WHO consigliata
+            // ~33 ml per kg di peso corporeo (varia da 30 a 35 ml/kg)
+            _dailyGoalMl.value = (prefs.weightKg * WATER_ML_PER_KG_BODY_WEIGHT).toInt()
+                .coerceIn(WATER_MIN_DAILY_ML, WATER_MAX_DAILY_ML)
         }
         viewModelScope.launch(Dispatchers.IO) {
             db.waterLogDao().deleteOldLogs(uid, today)
@@ -65,5 +68,16 @@ class WaterViewModel(application: Application) : AndroidViewModel(application) {
                 )
             )
         }
+    }
+
+    companion object {
+        // ✅ Costanti per il calcolo dell'obiettivo di acqua giornaliero
+        // Formula WHO: 30-35 ml per kg di peso corporeo
+        // Usiamo 33 come valore medio
+        private const val WATER_ML_PER_KG_BODY_WEIGHT = 33f
+
+        // Limiti ragionevoli per il consumo di acqua
+        private const val WATER_MIN_DAILY_ML = 1500  // ~6 bicchieri
+        private const val WATER_MAX_DAILY_ML = 4000  // ~16 bicchieri
     }
 }
