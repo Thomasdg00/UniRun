@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colori semantici Dark Mode -->
+    <color name="surface_background">#121212</color>
+    <color name="surface_card">#1E1E1E</color>
+    <color name="surface_dashboard">#2E2E2E</color>
+    <color name="surface_control">#1E1E1E</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#AAAAAA</color>
+    <color name="accent_red">#EE4B2B</color>
+    <color name="accent_green">#4CAF50</color>
+    <color name="accent_blue">#2196F3</color>
+</resources>

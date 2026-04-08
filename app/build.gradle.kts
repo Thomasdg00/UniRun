@@ -76,4 +76,7 @@ dependencies {
 
     // DataStore (profilo locale)
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    // MPAndroidChart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

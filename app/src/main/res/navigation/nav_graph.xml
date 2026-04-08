@@ -49,6 +49,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/activityDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -135,5 +143,11 @@
         android:label="Attrezzatura"
         tools:layout="@layout/fragment_gear">
     </fragment>
+
+    <fragment
+        android:id="@+id/activityDetailFragment"
+        android:name="com.univpm.unirun.ui.detail.ActivityDetailFragment"
+        android:label="Dettaglio Attività"
+        tools:layout="@layout/fragment_activity_detail" />
 
 </navigation>

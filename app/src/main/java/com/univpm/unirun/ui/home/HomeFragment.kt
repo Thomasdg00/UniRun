@@ -15,6 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.univpm.unirun.R
@@ -62,7 +64,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_home_to_gear)
         }
 
-        val adapter = ActivityAdapter()
+        val adapter = ActivityAdapter { activity ->
+            val bundle = Bundle().apply { putLong("activityId", activity.id) }
+            findNavController().navigate(R.id.action_home_to_detail, bundle)
+        }
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
 
@@ -77,32 +82,50 @@ class HomeFragment : Fragment() {
     }
 }
 
-class ActivityAdapter : RecyclerView.Adapter<ActivityAdapter.VH>() {
-    private var items: List<ActivityEntity> = emptyList()
-
-    fun submitList(list: List<ActivityEntity>) {
-        items = list
-        notifyDataSetChanged()
-    }
+class ActivityAdapter(
+    private val onItemClick: (ActivityEntity) -> Unit
+) : ListAdapter<ActivityEntity, ActivityAdapter.VH>(ActivityDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val tv = TextView(parent.context).apply {
-            setPadding(32, 20, 32, 20)
-            textSize = 14f
-        }
-        return VH(tv)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_activity, parent, false)
+        return VH(view)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val item = items[position]
-        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        val date = sdf.format(Date(item.startTimestamp))
-        val km = "%.2f km".format(item.distanceMeters / 1000f)
-        val min = item.durationSeconds / 60
-        (holder.itemView as TextView).text = "$date — $km — ${min}min"
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = items.size
+    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(item: ActivityEntity) {
+            itemView.findViewById<TextView>(R.id.tvActivityIcon).text = when(item.sportType) {
+                "RUN"  -> "🏃"
+                "WALK" -> "🚶"
+                "BIKE" -> "🚴"
+                else   -> "🏃"
+            }
+            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            itemView.findViewById<TextView>(R.id.tvActivityDate).text =
+                sdf.format(Date(item.startTimestamp))
 
-    class VH(v: View) : RecyclerView.ViewHolder(v)
+            itemView.findViewById<TextView>(R.id.tvActivityDistance).text =
+                if (item.distanceMeters < 1000) "%.0f m".format(item.distanceMeters)
+                else "%.2f km".format(item.distanceMeters / 1000f)
+
+            val min = item.durationSeconds / 60
+            val sec = item.durationSeconds % 60
+            itemView.findViewById<TextView>(R.id.tvActivityDuration).text =
+                "%d:%02d".format(min, sec)
+
+            itemView.findViewById<TextView>(R.id.tvActivityCalories).text =
+                "%.0f kcal".format(item.calories)
+
+            itemView.setOnClickListener { onItemClick(item) }
+        }
+    }
+}
+
+class ActivityDiffCallback : DiffUtil.ItemCallback<ActivityEntity>() {
+    override fun areItemsTheSame(o: ActivityEntity, n: ActivityEntity) = o.id == n.id
+    override fun areContentsTheSame(o: ActivityEntity, n: ActivityEntity) = o == n
 }

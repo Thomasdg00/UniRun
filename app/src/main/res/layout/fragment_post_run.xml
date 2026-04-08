@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#121212"
+    android:background="@color/surface_background"
     android:padding="16dp">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="🏃 Corsa"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/text_primary"
         android:textSize="28sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00 km"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/text_primary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Distanza"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/text_primary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Durata"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--:--"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/text_primary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Passo (min/km)"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0 kcal"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/text_primary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calorie"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -139,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Attrezzatura usata:"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/text_primary"
         android:textSize="14sp"
         android:layout_marginBottom="4dp" />
 
@@ -148,7 +148,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#FFFFFF" />
+        android:backgroundTint="@color/text_primary" />
 
     <Button
         android:id="@+id/btnSaveActivity"
