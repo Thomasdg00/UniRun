@@ -89,7 +89,8 @@ class TrackingFragment : Fragment() {
             polylineAnnotationManager = annotationApi.createPolylineAnnotationManager()
         }
 
-        btnStart.setOnClickListener { trackingViewModel.startTracking("RUN") }
+        val sportType = arguments?.getString("sportType") ?: "RUN"
+        btnStart.setOnClickListener { trackingViewModel.startTracking(sportType) }
         btnPause.setOnClickListener { trackingViewModel.pauseTracking() }
         btnResume.setOnClickListener { trackingViewModel.resumeTracking() }
         btnStop.setOnClickListener { showStopConfirmationDialog() }
@@ -188,10 +189,11 @@ class TrackingFragment : Fragment() {
     private fun showStopConfirmationDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Terminare allenamento?")
-            .setMessage("Vuoi terminare l'allenamento e salvarlo?")
+            .setMessage("Vuoi terminare l'allenamento?")
             .setPositiveButton("Sì") { _, _ ->
                 trackingViewModel.stopTracking()
-                findNavController().navigate(R.id.action_tracking_to_home)
+                // NON fare resetState qui: PostRunFragment legge ancora i dati
+                findNavController().navigate(R.id.action_tracking_to_post_run)
             }
             .setNegativeButton("Annulla", null)
             .show()

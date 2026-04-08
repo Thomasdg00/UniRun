@@ -13,8 +13,11 @@ object TrackingRepository {
     private val _state = MutableStateFlow(TrackingState())
     val state: StateFlow<TrackingState> = _state.asStateFlow()
 
-    fun startTracking() {
-        _state.value = TrackingState(status = TrackingStatus.RUNNING)
+    fun startTracking(sportType: String = "RUN") {
+        _state.value = TrackingState(
+            status = TrackingStatus.RUNNING,
+            sportType = sportType
+        )
     }
 
     fun pauseTracking() {

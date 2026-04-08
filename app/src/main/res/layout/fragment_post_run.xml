@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#121212"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvSportType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🏃 Corsa"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <com.mapbox.maps.MapView
+        android:id="@+id/mapViewStatic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvTotalDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00 km"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distanza"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvTotalDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Durata"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvAvgPace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Passo (min/km)"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvTotalCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 kcal"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calorie"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btnSaveActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SALVA ATTIVITÀ"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnDiscardActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SCARTA"
+        android:backgroundTint="#757575"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

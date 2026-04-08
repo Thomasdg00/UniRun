@@ -33,7 +33,7 @@ class TrackingViewModel(application: Application) : AndroidViewModel(application
         get() = trackingState.value.status == TrackingStatus.PAUSED
 
     fun startTracking(sportType: String) {
-        // Here you could save sportType into Repository or start action.
+        TrackingRepository.startTracking(sportType)  // passa sportType
         sendServiceAction(TrackingService.ACTION_START)
     }
 
@@ -46,24 +46,9 @@ class TrackingViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun stopTracking() {
-        viewModelScope.launch {
-            val state = TrackingRepository.state.value
-            val entity = ActivityEntity(
-                userId = "local_user",
-                sportType = "RUN",
-                startTimestamp = System.currentTimeMillis() - (state.elapsedSeconds * 1000L),
-                durationSeconds = state.elapsedSeconds,
-                distanceMeters = state.distanceMeters,
-                calories = 0f,
-                polylineJson = "",
-                gearId = null
-            )
-            withContext(Dispatchers.IO) {
-                AppDatabase.getInstance(getApplication()).activityDao().insert(entity)
-            }
-            sendServiceAction(TrackingService.ACTION_STOP)
-            TrackingRepository.resetState()
-        }
+        sendServiceAction(TrackingService.ACTION_STOP)
+        // Il salvataggio avviene in PostRunFragment dopo che l'utente
+        // visualizza il riepilogo e conferma. Non salvare qui.
     }
 
     private fun sendServiceAction(action: String) {

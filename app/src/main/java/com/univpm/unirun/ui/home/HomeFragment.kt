@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         val rv: RecyclerView = view.findViewById(R.id.rvActivities)
 
         fab.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_tracking)
+            findNavController().navigate(R.id.action_home_to_sport)
         }
 
         val adapter = ActivityAdapter()

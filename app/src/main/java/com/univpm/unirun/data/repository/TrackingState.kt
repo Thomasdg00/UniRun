@@ -6,6 +6,7 @@ enum class TrackingStatus { IDLE, RUNNING, PAUSED }
 
 data class TrackingState(
     val status: TrackingStatus = TrackingStatus.IDLE,
+    val sportType: String = "RUN",
     val elapsedSeconds: Long = 0L,
     val distanceMeters: Float = 0f,
     val paceSecPerKm: Int = 0,

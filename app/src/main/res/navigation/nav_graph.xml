@@ -13,7 +13,22 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_home_to_tracking"
+            android:id="@+id/action_home_to_sport"
+            app:destination="@id/sportSelectionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sportSelectionFragment"
+        android:name="com.univpm.unirun.ui.sport.SportSelectionFragment"
+        android:label="Seleziona Sport"
+        tools:layout="@layout/fragment_sport_selection">
+
+        <action
+            android:id="@+id/action_sport_to_tracking"
             app:destination="@id/trackingFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -28,12 +43,27 @@
         tools:layout="@layout/fragment_tracking">
 
         <action
-            android:id="@+id/action_tracking_to_home"
+            android:id="@+id/action_tracking_to_post_run"
+            app:destination="@id/postRunFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/postRunFragment"
+        android:name="com.univpm.unirun.ui.postrun.PostRunFragment"
+        android:label="Riepilogo"
+        tools:layout="@layout/fragment_post_run">
+
+        <action
+            android:id="@+id/action_post_run_to_home"
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

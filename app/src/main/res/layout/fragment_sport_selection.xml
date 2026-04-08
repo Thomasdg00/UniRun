@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:background="#2E2E2E">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleziona attività"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="48dp" />
+
+    <Button
+        android:id="@+id/btnRun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🏃 Corsa"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnWalk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🚶 Camminata"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnBike"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🚴 Bici"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:backgroundTint="#FF9800"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>
