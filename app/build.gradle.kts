@@ -5,6 +5,16 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+fun getLocalProperty(key: String): String {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        val line = file.readLines().find { it.startsWith(key) }
+        if (line != null) return line.substringAfter("=").trim()
+    }
+    return ""
+}
+val mapboxPublicToken = getLocalProperty("MAPBOX_PUBLIC_TOKEN")
+
 android {
     namespace = "com.univpm.unirun"
     compileSdk = 35
@@ -14,17 +24,10 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "pre-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        val localProperties = java.util.Properties()
-        val localPropertiesFile = rootProject.file("local.properties")
-        if (localPropertiesFile.exists()) {
-            localProperties.load(localPropertiesFile.inputStream())
-        }
-        manifestPlaceholders["MAPBOX_PUBLIC_TOKEN"] =
-            localProperties.getProperty("MAPBOX_PUBLIC_TOKEN") ?: ""
+        manifestPlaceholders["MAPBOX_PUBLIC_TOKEN"] = mapboxPublicToken
     }
 
     buildTypes {
