@@ -33,6 +33,7 @@ import android.widget.AdapterView
 
 class PostRunFragment : Fragment(R.layout.fragment_post_run) {
 
+    private val gearViewModel: GearViewModel by viewModels()
     private lateinit var mapViewStatic: MapView
     private lateinit var tvSportType: TextView
     private lateinit var tvTotalDistance: TextView
@@ -77,7 +78,6 @@ class PostRunFragment : Fragment(R.layout.fragment_post_run) {
         }
 
         val spinnerGear = view.findViewById<Spinner>(R.id.spinnerGear)
-        val gearViewModel: GearViewModel by viewModels()
         var selectedGearId: Long? = null
 
         viewLifecycleOwner.lifecycleScope.launch {

@@ -71,9 +71,9 @@ class WaterFragment : Fragment(R.layout.fragment_water) {
         if (consumed >= goal) {
             tvWaterConsumed.setTextColor(Color.parseColor("#4CAF50"))
         } else {
-            // Revert to default text color if needed, assuming default is likely gray or black.
-            // Using a generic dark grey here just in case.
-            tvWaterConsumed.setTextColor(Color.parseColor("#757575")) 
+            val typedValue = android.util.TypedValue()
+            requireContext().theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true)
+            tvWaterConsumed.setTextColor(typedValue.data)
         }
     }
 }

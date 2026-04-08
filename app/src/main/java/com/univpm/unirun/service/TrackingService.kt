@@ -63,7 +63,10 @@ class TrackingService : Service() {
     }
 
     private fun handleStart() {
-        TrackingRepository.startTracking()
+        val currentSportType = TrackingRepository.state.value.sportType
+        if (TrackingRepository.state.value.status != TrackingStatus.RUNNING) {
+            TrackingRepository.startTracking(currentSportType)
+        }
         startForeground(NOTIFICATION_ID, buildNotification("Registrazione in corso..."))
         startLocationUpdates()
         startTimer()
