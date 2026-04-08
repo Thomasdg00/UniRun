@@ -22,6 +22,14 @@ import com.univpm.unirun.data.repository.TrackingState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.first
+import com.univpm.unirun.data.preferences.UserPreferencesRepository
+import com.google.firebase.auth.FirebaseAuth
+import androidx.fragment.app.viewModels
+import com.univpm.unirun.viewmodel.GearViewModel
+import android.widget.Spinner
+import android.widget.ArrayAdapter
+import android.widget.AdapterView
 
 class PostRunFragment : Fragment(R.layout.fragment_post_run) {
 
@@ -57,9 +65,35 @@ class PostRunFragment : Fragment(R.layout.fragment_post_run) {
         tvTotalDuration.text = state.formattedDuration
         tvAvgPace.text = state.formattedPace
         
-        val weightKg = 70f // placeholder, Parte 4 leggerà dal profilo
-        val calories = calculateCalories(state, weightKg)
-        tvTotalCalories.text = "%.0f kcal".format(calories)
+        val prefsRepo = UserPreferencesRepository(requireContext())
+        var weightKg = 70f  // default fallback
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            prefsRepo.userPreferencesFlow.first().let { prefs ->
+                weightKg = prefs.weightKg
+                val calories = calculateCalories(state, weightKg)
+                tvTotalCalories.text = "%.0f kcal".format(calories)
+            }
+        }
+
+        val spinnerGear = view.findViewById<Spinner>(R.id.spinnerGear)
+        val gearViewModel: GearViewModel by viewModels()
+        var selectedGearId: Long? = null
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            gearViewModel.gearList.first().let { gearList ->
+                val items = listOf("Nessuna") + gearList.map { it.name }
+                val adapter = ArrayAdapter(requireContext(),
+                    android.R.layout.simple_spinner_item, items)
+                spinnerGear.adapter = adapter
+                spinnerGear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                        selectedGearId = if (pos == 0) null else gearList[pos - 1].id
+                    }
+                    override fun onNothingSelected(parent: AdapterView<*>) { selectedGearId = null }
+                }
+            }
+        }
 
         mapViewStatic.mapboxMap.loadStyleUri(Style.MAPBOX_STREETS) {
             drawPolyline(state)
@@ -67,17 +101,22 @@ class PostRunFragment : Fragment(R.layout.fragment_post_run) {
 
         btnSaveActivity.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
+                val uid = FirebaseAuth.getInstance().currentUser?.uid ?: "local_user"
                 withContext(Dispatchers.IO) {
                     val db = AppDatabase.getInstance(requireContext())
                     val repo = ActivityRepository(db)
                     repo.saveActivity(
-                        userId = "local_user",
+                        userId = uid,
                         sportType = state.sportType,
                         durationSeconds = state.elapsedSeconds,
                         distanceMeters = state.distanceMeters,
                         pathPoints = state.pathPoints,
-                        weightKg = weightKg
+                        weightKg = weightKg,
+                        gearId = selectedGearId
                     )
+                    selectedGearId?.let { gearId ->
+                        gearViewModel.addKmToGear(gearId, state.distanceMeters / 1000f)
+                    }
                 }
                 TrackingRepository.resetState()
                 findNavController().navigate(R.id.action_post_run_to_home)

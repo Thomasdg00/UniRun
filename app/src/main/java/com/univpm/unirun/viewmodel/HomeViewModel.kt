@@ -6,9 +6,10 @@ import com.univpm.unirun.data.db.ActivityEntity
 import com.univpm.unirun.data.db.AppDatabase
 import kotlinx.coroutines.flow.Flow
 
+import com.google.firebase.auth.FirebaseAuth
+
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDatabase.getInstance(application)
-    // TODO Parte 4: sostituire "local_user" con Firebase Auth UID
-    val activities: Flow<List<ActivityEntity>> =
-        db.activityDao().observeAllByUser("local_user")
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid ?: "local_user"
+    val activities: Flow<List<ActivityEntity>> = db.activityDao().observeAllByUser(uid)
 }

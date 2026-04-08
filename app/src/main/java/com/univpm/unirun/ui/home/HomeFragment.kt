@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.firebase.auth.FirebaseAuth
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -36,6 +39,27 @@ class HomeFragment : Fragment() {
 
         fab.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_sport)
+        }
+        
+        val btnProfile = view.findViewById<ImageButton>(R.id.btnProfile)
+        btnProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_profile)
+        }
+
+        val btnLogout = view.findViewById<ImageButton>(R.id.btnLogout)
+        btnLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            findNavController().navigate(R.id.action_home_to_auth)
+        }
+
+        val btnWater = view.findViewById<Button>(R.id.btnWater)
+        btnWater.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_water)
+        }
+
+        val btnGear = view.findViewById<Button>(R.id.btnGear)
+        btnGear.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_gear)
         }
 
         val adapter = ActivityAdapter()
