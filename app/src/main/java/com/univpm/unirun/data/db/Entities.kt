@@ -22,9 +22,15 @@ data class UserEntity(
             parentColumns = ["uid"],
             childColumns = ["userId"],
             onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = GearEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["gearId"],
+            onDelete = ForeignKey.SET_NULL
         )
     ],
-    indices = [Index(value = ["userId"])]
+    indices = [Index(value = ["userId"]), Index(value = ["gearId"])]
 )
 data class ActivityEntity(
     @PrimaryKey(autoGenerate = true)
