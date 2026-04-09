@@ -7,7 +7,6 @@ import com.univpm.unirun.data.db.AppDatabase
 import com.univpm.unirun.data.preferences.UserPreferencesRepository
 import com.univpm.unirun.data.repository.AuthenticationRepository
 import com.univpm.unirun.ui.auth.AuthViewModelProvider
-import com.univpm.unirun.ui.onboarding.AuthViewModelProvider as OnboardingAuthViewModelProvider
 import com.univpm.unirun.viewmodel.AuthViewModel
 
 /**
@@ -17,9 +16,7 @@ import com.univpm.unirun.viewmodel.AuthViewModel
  * This simple DI pattern allows fragments to access the shared ViewModel.
  * In production, consider using Hilt for proper dependency injection.
  */
-class MainActivity : AppCompatActivity(),
-    AuthViewModelProvider,
-    OnboardingAuthViewModelProvider {
+class MainActivity : AppCompatActivity(), AuthViewModelProvider {
 
     // Lazy initialization of AuthViewModel
     override val authViewModel: AuthViewModel by lazy {

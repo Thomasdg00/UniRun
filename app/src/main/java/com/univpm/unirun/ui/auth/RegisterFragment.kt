@@ -7,14 +7,16 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.snackbar.Snackbar
 import com.univpm.unirun.R
-import com.univpm.unirun.viewmodel.AuthViewModel
 import com.univpm.unirun.viewmodel.AuthState
+import com.univpm.unirun.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
@@ -31,9 +33,24 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var etRegisterConfirmPassword: EditText
     private lateinit var checkTerms: CheckBox
     private lateinit var btnRegister: Button
+    private lateinit var btnRegisterGoogleSignIn: Button
     private lateinit var tvGoToLogin: TextView
     private lateinit var progressRegister: ProgressBar
     private lateinit var tvRegisterError: TextView
+
+    private val googleSignInLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        try {
+            val account = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                .getResult(Exception::class.java)
+            if (account != null) {
+                authViewModel.signInWithGoogle(account)
+            }
+        } catch (e: Exception) {
+            showError("Errore Google Sign-In: ${e.localizedMessage}")
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,12 +62,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         etRegisterConfirmPassword = view.findViewById(R.id.etRegisterConfirmPassword)
         checkTerms = view.findViewById(R.id.checkTerms)
         btnRegister = view.findViewById(R.id.btnRegister)
+        btnRegisterGoogleSignIn = view.findViewById(R.id.btnRegisterGoogleSignIn)
         tvGoToLogin = view.findViewById(R.id.tvGoToLogin)
         progressRegister = view.findViewById(R.id.progressRegister)
         tvRegisterError = view.findViewById(R.id.tvRegisterError)
         
         // Wire up click listeners
         btnRegister.setOnClickListener { handleRegister() }
+        btnRegisterGoogleSignIn.setOnClickListener { handleGoogleSignIn() }
         tvGoToLogin.setOnClickListener { findNavController().navigateUp() }
         
         // Observe authentication state
@@ -137,11 +156,25 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private fun showProgress() {
         progressRegister.visibility = View.VISIBLE
         btnRegister.isEnabled = false
+        btnRegisterGoogleSignIn.isEnabled = false
     }
 
     private fun hideProgress() {
         progressRegister.visibility = View.GONE
         btnRegister.isEnabled = true
+        btnRegisterGoogleSignIn.isEnabled = true
+    }
+
+    private fun handleGoogleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        googleSignInClient.signOut().addOnCompleteListener {
+            googleSignInLauncher.launch(googleSignInClient.signInIntent)
+        }
     }
 
     private fun showError(message: String) {

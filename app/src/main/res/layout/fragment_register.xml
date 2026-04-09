@@ -301,14 +301,11 @@
         <!-- CREATE ACCOUNT Button -->
         <Button
             android:id="@+id/btnRegister"
+            style="@style/KineticButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="CREATE ACCOUNT →"
-            android:textColor="@color/kinetic_on_primary_fixed"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:fontFamily="@font/font_headline"
-            android:background="@drawable/bg_button_primary"
             android:layout_marginBottom="24dp" />
 
         <!-- Footer Link -->
@@ -372,42 +369,17 @@
                 android:alpha="0.2" />
         </LinearLayout>
 
-        <!-- Social Buttons Row -->
-        <LinearLayout
+        <!-- Google Sign-In Button -->
+        <Button
+            android:id="@+id/btnRegisterGoogleSignIn"
+            style="@style/KineticButtonSurface"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="24dp">
-
-            <!-- Google Button -->
-            <Button
-                android:id="@+id/btnRegisterGoogleSignIn"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="GOOGLE"
-                android:textColor="@color/kinetic_on_surface"
-                android:textSize="10sp"
-                android:fontFamily="@font/font_label"
-                android:background="@drawable/bg_input_field"
-                android:drawableStart="@drawable/ic_google"
-                android:drawablePadding="8dp" />
-
-            <!-- Apple Button -->
-            <Button
-                android:id="@+id/btnRegisterAppleSignIn"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="APPLE"
-                android:textColor="@color/kinetic_on_surface"
-                android:textSize="10sp"
-                android:fontFamily="@font/font_label"
-                android:background="@drawable/bg_input_field" />
-        </LinearLayout>
+            android:layout_height="56dp"
+            android:text="CONTINUA CON GOOGLE"
+            android:textSize="14sp"
+            android:drawableStart="@drawable/ic_google"
+            android:drawablePadding="12dp"
+            android:layout_marginBottom="24dp" />
 
         <!-- Progress Bar -->
         <ProgressBar

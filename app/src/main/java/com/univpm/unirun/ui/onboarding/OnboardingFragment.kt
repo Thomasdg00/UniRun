@@ -7,11 +7,11 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.univpm.unirun.R
+import com.univpm.unirun.ui.auth.AuthViewModelProvider
 import com.univpm.unirun.viewmodel.AuthState
 import com.univpm.unirun.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
@@ -140,13 +140,4 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
             }
         }
     }
-}
-
-/**
- * Interface that Activity must implement to provide AuthViewModel.
- * This is a simple DI pattern without using Hilt.
- * In production, use Hilt for better dependency injection.
- */
-interface AuthViewModelProvider {
-    val authViewModel: AuthViewModel
 }

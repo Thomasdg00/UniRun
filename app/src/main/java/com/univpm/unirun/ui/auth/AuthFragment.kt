@@ -1,6 +1,7 @@
 package com.univpm.unirun.ui.auth
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -39,8 +40,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private lateinit var tvGoToRegister: TextView
     private lateinit var btnGoogleSignIn: Button
     private lateinit var btnForgotPassword: TextView
+    private lateinit var btnTogglePassword: ImageButton
     private lateinit var tvAuthError: TextView
     private lateinit var progressAuth: ProgressBar
+    private var passwordVisible = false
 
     // Google Sign-In launcher
     private val googleSignInLauncher = registerForActivityResult(
@@ -72,6 +75,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         tvGoToRegister = view.findViewById(R.id.tvGoToRegister)
         btnGoogleSignIn = view.findViewById(R.id.btnGoogleSignIn)
         btnForgotPassword = view.findViewById(R.id.btnForgotPassword)
+        btnTogglePassword = view.findViewById(R.id.btnTogglePassword)
         tvAuthError = view.findViewById(R.id.tvAuthError)
         progressAuth = view.findViewById(R.id.progressAuth)
 
@@ -80,6 +84,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         tvGoToRegister.setOnClickListener { findNavController().navigate(R.id.action_auth_to_register) }
         btnGoogleSignIn.setOnClickListener { handleGoogleSignIn() }
         btnForgotPassword.setOnClickListener { handleForgotPassword() }
+        btnTogglePassword.setOnClickListener { togglePasswordVisibility() }
 
         // Observe auth state
         observeAuthState()
@@ -217,6 +222,19 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         tvGoToRegister.isEnabled = enabled
         btnGoogleSignIn.isEnabled = enabled
         btnForgotPassword.isEnabled = enabled
+    }
+
+    /**
+     * Toggles password field visibility between plain text and dots.
+     */
+    private fun togglePasswordVisibility() {
+        passwordVisible = !passwordVisible
+        etPassword.inputType = if (passwordVisible) {
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        } else {
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+        etPassword.setSelection(etPassword.text.length)
     }
 
     /**
