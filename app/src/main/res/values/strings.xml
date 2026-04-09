@@ -42,4 +42,7 @@
     <string name="btn_cancel">Annulla</string>
     <string name="email_reset_sent">Email di recupero inviata. Controlla la tua casella postale.</string>
     
+    <!-- Google Sign-In -->
+    <string name="default_web_client_id">YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com</string>
+
 </resources>

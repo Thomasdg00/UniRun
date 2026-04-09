@@ -10,6 +10,10 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 object TrackingRepository {
+    // Costante denominata per il calcolo della pace
+    // Minima distanza richiesta per calcolare un pace significativo (20 metri)
+    private const val MIN_DISTANCE_FOR_PACE_CALCULATION = 20f
+
     private val _state = MutableStateFlow(TrackingState())
     val state: StateFlow<TrackingState> = _state.asStateFlow()
 
@@ -106,11 +110,5 @@ object TrackingRepository {
         }
         // sec / km
         return (elapsedSeconds / (distanceMeters / 1000f)).toInt()
-    }
-
-    companion object {
-        // ✅ Costante denominata per il calcolo della pace
-        // Minima distanza richiesta per calcolare un pace significativo (20 metri)
-        private const val MIN_DISTANCE_FOR_PACE_CALCULATION = 20f
     }
 }
