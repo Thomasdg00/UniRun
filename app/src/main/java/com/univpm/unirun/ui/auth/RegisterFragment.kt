@@ -14,12 +14,15 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.univpm.unirun.R
 import com.univpm.unirun.viewmodel.AuthViewModel
-import com.univpm.unirun.data.model.AuthState
+import com.univpm.unirun.viewmodel.AuthState
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
 
-    private lateinit var authViewModel: AuthViewModel
+    private val authViewModel: AuthViewModel by lazy {
+        (requireActivity() as? AuthViewModelProvider)?.authViewModel
+            ?: throw IllegalStateException("Activity must implement AuthViewModelProvider")
+    }
     
     // View references
     private lateinit var etRegisterName: EditText
@@ -34,10 +37,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        // Get AuthViewModel from activity
-        authViewModel = (requireActivity() as? AuthViewModelProvider)?.authViewModel
-            ?: throw IllegalStateException("Activity must implement AuthViewModelProvider")
         
         // Initialize view references
         etRegisterName = view.findViewById(R.id.etRegisterName)
@@ -150,9 +149,4 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         tvRegisterError.visibility = View.VISIBLE
         Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
     }
-}
-
-// Interface that Activity must implement to provide AuthViewModel
-interface AuthViewModelProvider {
-    val authViewModel: AuthViewModel
 }
