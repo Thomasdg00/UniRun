@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">UniRun</string>
+    
+    <!-- Auth Messages -->
+    <string name="error_email_invalid">Email non valida</string>
+    <string name="error_password_empty">Inserisci una password</string>
+    <string name="error_password_short">Password: minimo 6 caratteri</string>
+    <string name="error_password_weak">Password deve contenere almeno 8 caratteri, una maiuscola e un numero</string>
+    <string name="error_user_not_found">Utente non trovato</string>
+    <string name="error_invalid_credentials">Email o password non valida</string>
+    <string name="error_email_already_in_use">Email già registrata</string>
+    <string name="error_weak_password">Password troppo debole</string>
+    <string name="error_network">Errore di rete. Controlla la connessione e riprova.</string>
+    <string name="error_unknown">Errore sconosciuto. Riprova più tardi.</string>
+    
+    <!-- Auth UI -->
+    <string name="auth_title">Accedi al tuo account</string>
+    <string name="btn_login">ACCEDI</string>
+    <string name="btn_register">REGISTRATI</string>
+    <string name="btn_google_signin">ACCEDI CON GOOGLE</string>
+    <string name="btn_forgot_password">Password dimenticata?</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_title">Completa il tuo profilo</string>
+    <string name="onboarding_subtitle">Questi dati ci aiuteranno a personalizzare la tua esperienza</string>
+    <string name="label_name">Nome</string>
+    <string name="label_weight">Peso (kg)</string>
+    <string name="label_height">Altezza (cm)</string>
+    <string name="btn_continue">CONTINUA</string>
+    <string name="hint_name">Es. Mario Rossi</string>
+    <string name="hint_weight">Es. 75.5</string>
+    <string name="hint_height">Es. 180</string>
+    <string name="error_name_empty">Inserisci il tuo nome</string>
+    <string name="error_name_short">Nome deve essere almeno 2 caratteri</string>
+    <string name="error_weight_invalid">Peso deve essere tra 30 e 300 kg</string>
+    <string name="error_height_invalid">Altezza deve essere tra 100 e 250 cm</string>
+    
+    <!-- Password Reset -->
+    <string name="password_reset_title">Password dimenticata?</string>
+    <string name="password_reset_message">Inserisci la tua email per ricevere un link di reset.</string>
+    <string name="btn_send">Invia</string>
+    <string name="btn_cancel">Annulla</string>
+    <string name="email_reset_sent">Email di recupero inviata. Controlla la tua casella postale.</string>
+    
 </resources>

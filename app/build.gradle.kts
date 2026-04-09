@@ -85,6 +85,9 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
 
+    // Google Play Services Auth (for Google Sign-In)
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 

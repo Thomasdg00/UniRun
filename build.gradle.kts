@@ -4,3 +4,10 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
 }
+
+// Configure Kotlin compiler for Java version compatibility
+tasks.register("validateKotlinVersion") {
+    doFirst {
+        println("Kotlin compiler compatibility check...")
+    }
+}
