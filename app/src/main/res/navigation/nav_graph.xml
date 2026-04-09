@@ -115,6 +115,12 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_profile_to_sport"
+            app:destination="@id/sportSelectionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment

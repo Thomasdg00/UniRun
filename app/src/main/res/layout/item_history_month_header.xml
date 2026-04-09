@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="24dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/tvSeparatorMonth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/font_headline"
+        android:text="OCTOBER 2024"
+        android:textColor="@color/kinetic_on_surface"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvSeparatorKm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/font_headline"
+        android:text="42.3 KM"
+        android:textColor="@color/kinetic_primary_container"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>

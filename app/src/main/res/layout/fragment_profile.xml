@@ -1,58 +1,591 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
+    android:background="@color/kinetic_background"
+    tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profilo Utente"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp" />
+    <LinearLayout
+        android:id="@+id/topAppBarProfile"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/kinetic_background"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-    <EditText
-        android:id="@+id/etName"
+        <ImageButton
+            android:id="@+id/btnMenuProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
+            android:src="@drawable/ic_menu"
+            android:tint="@color/kinetic_primary" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/font_headline"
+            android:gravity="center"
+            android:letterSpacing="-0.04"
+            android:text="KINETIC"
+            android:textColor="@color/kinetic_primary"
+            android:textSize="22sp"
+            android:textStyle="bold|italic" />
+
+        <ImageButton
+            android:id="@+id/btnSettingsProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
+            android:src="@drawable/ic_settings"
+            android:tint="@color/kinetic_primary" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingTop="64dp"
+        android:paddingBottom="112dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="112dp"
+                    android:layout_height="112dp"
+                    android:layout_marginEnd="20dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="112dp"
+                        android:layout_height="112dp"
+                        app:cardBackgroundColor="@color/kinetic_primary_container"
+                        app:cardCornerRadius="56dp"
+                        app:cardElevation="0dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="104dp"
+                            android:layout_height="104dp"
+                            android:layout_gravity="center"
+                            app:cardBackgroundColor="@color/kinetic_surface_container"
+                            app:cardCornerRadius="52dp"
+                            app:cardElevation="0dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/ivProfileAvatar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/kinetic_surface_container"
+                                android:contentDescription="@string/app_name"
+                                android:padding="22dp"
+                                android:scaleType="centerCrop"
+                                android:src="@android:drawable/ic_menu_myplaces"
+                                android:tint="@color/kinetic_on_surface_variant"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/ivVerifiedBadge"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="bottom|end"
+                        app:cardBackgroundColor="@color/kinetic_primary_container"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="8dp"
+                            android:src="@android:drawable/checkbox_on_background"
+                            android:tint="@color/kinetic_on_primary_fixed" />
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvProfileLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_label"
+                        android:text="ELITE LEVEL"
+                        android:textColor="@color/kinetic_primary_container"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvProfileName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/font_headline"
+                        android:maxLines="2"
+                        android:text="ATHLETE"
+                        android:textAllCaps="true"
+                        android:textColor="@color/kinetic_on_surface"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@android:drawable/ic_menu_compass"
+                            android:tint="@color/kinetic_outline" />
+
+                        <TextView
+                            android:id="@+id/tvProfileLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/font_label"
+                            android:text="UNIRUN ATHLETE"
+                            android:textColor="@color/kinetic_on_surface_variant"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@android:drawable/ic_menu_today"
+                            android:tint="@color/kinetic_outline" />
+
+                        <TextView
+                            android:id="@+id/tvProfileJoined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/font_label"
+                            android:text="JOINED THIS MONTH"
+                            android:textColor="@color/kinetic_on_surface_variant"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_card_primary"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_label"
+                        android:text="TOTAL DISTANCE"
+                        android:textColor="@color/kinetic_on_surface_variant"
+                        android:textSize="9sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:baselineAligned="true"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvTotalDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_headline"
+                            android:text="0.0"
+                            android:textColor="@color/kinetic_primary_container"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/font_label"
+                            android:text="KM"
+                            android:textColor="@color/kinetic_primary_container"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_bento_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_label"
+                        android:text="ACTIVITIES"
+                        android:textColor="@color/kinetic_on_surface_variant"
+                        android:textSize="9sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalActivities"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/font_headline"
+                        android:text="0"
+                        android:textColor="@color/kinetic_on_surface"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_bento_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_label"
+                        android:text="AVG PACE"
+                        android:textColor="@color/kinetic_on_surface_variant"
+                        android:textSize="9sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:baselineAligned="true"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvAvgPace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_headline"
+                            android:text="--:--"
+                            android:textColor="@color/kinetic_on_surface"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/font_label"
+                            android:text="/KM"
+                            android:textColor="@color/kinetic_on_surface_variant"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_card_secondary"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_label"
+                        android:text="TOTAL CALORIES"
+                        android:textColor="@color/kinetic_on_surface_variant"
+                        android:textSize="9sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:baselineAligned="true"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvTotalCalories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_headline"
+                            android:text="0"
+                            android:textColor="@color/kinetic_secondary"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/font_label"
+                            android:text="KCAL"
+                            android:textColor="@color/kinetic_secondary"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/kinetic_surface_container_high"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:tint="@color/kinetic_primary_container" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/font_headline"
+                        android:text="EDIT PROFILE"
+                        android:textColor="@color/kinetic_on_surface"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        android:tint="@color/kinetic_on_surface_variant" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/layoutMonthHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvMonthLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/font_headline"
+                    android:text="THIS MONTH"
+                    android:textColor="@color/kinetic_on_surface"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMonthKm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_headline"
+                    android:text="0.0 KM"
+                    android:textColor="@color/kinetic_primary_container"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMonthTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/font_headline"
+                    android:text="0:00 h"
+                    android:textColor="@color/kinetic_on_surface"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:alpha="0.1"
+                android:background="@color/kinetic_outline_variant" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvActivityHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_activity_history" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="16dp" />
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_bottom_nav"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="24dp"
+        android:weightSum="3">
 
-    <EditText
-        android:id="@+id/etWeight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Peso (kg)"
-        android:inputType="numberDecimal"
-        android:layout_marginBottom="16dp" />
+        <LinearLayout
+            android:id="@+id/navHomeProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-    <EditText
-        android:id="@+id/etHeight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Altezza (cm)"
-        android:inputType="number"
-        android:layout_marginBottom="24dp" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_view"
+                android:tint="@color/kinetic_outline_variant" />
 
-    <Button
-        android:id="@+id/btnSaveProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SALVA PROFILO"
-        android:backgroundTint="#4CAF50"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/font_label"
+                android:text="HOME"
+                android:textColor="@color/kinetic_outline_variant"
+                android:textSize="10sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvProfileInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="italic" />
+        <LinearLayout
+            android:id="@+id/navRecordProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-</LinearLayout>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_play"
+                android:tint="@color/kinetic_outline_variant" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/font_label"
+                android:text="TRACK"
+                android:textColor="@color/kinetic_outline_variant"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navProfileTab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_nav_active"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                android:tint="@color/kinetic_on_primary_fixed" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/font_label"
+                android:text="PROFILE"
+                android:textColor="@color/kinetic_on_primary_fixed"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

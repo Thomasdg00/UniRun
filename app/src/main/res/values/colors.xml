@@ -16,6 +16,8 @@
 
     <!-- Kinetic Design System Colors (Light Mode) -->
     <color name="kinetic_background">#090e1c</color>
+    <color name="kinetic_surface_container_low">#0d1323</color>
+    <color name="kinetic_surface_container_lowest">#000000</color>
     <color name="kinetic_surface_container">#13192b</color>
     <color name="kinetic_surface_container_high">#181f33</color>
     <color name="kinetic_surface_container_highest">#1e253b</color>

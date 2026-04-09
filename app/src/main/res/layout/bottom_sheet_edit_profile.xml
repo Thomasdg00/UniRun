@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/kinetic_surface_container"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/font_headline"
+        android:text="EDIT PROFILE"
+        android:textColor="@color/kinetic_primary"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        android:textColor="@color/kinetic_on_surface"
+        android:textColorHint="@color/kinetic_outline" />
+
+    <EditText
+        android:id="@+id/etWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="Weight (kg)"
+        android:inputType="numberDecimal"
+        android:padding="16dp"
+        android:textColor="@color/kinetic_on_surface"
+        android:textColorHint="@color/kinetic_outline" />
+
+    <EditText
+        android:id="@+id/etHeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="Height (cm)"
+        android:inputType="number"
+        android:padding="16dp"
+        android:textColor="@color/kinetic_on_surface"
+        android:textColorHint="@color/kinetic_outline" />
+
+    <Button
+        android:id="@+id/btnSaveProfile"
+        style="@style/KineticButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
+        android:text="SAVE PROFILE"
+        android:textSize="16sp" />
+</LinearLayout>
