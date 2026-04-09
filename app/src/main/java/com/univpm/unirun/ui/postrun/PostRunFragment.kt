@@ -66,17 +66,6 @@ class PostRunFragment : Fragment(R.layout.fragment_post_run) {
         tvTotalDuration.text = state.formattedDuration
         tvAvgPace.text = state.formattedPace
         
-        val prefsRepo = UserPreferencesRepository(requireContext())
-        var weightKg = 70f  // default fallback
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            prefsRepo.userPreferencesFlow.first().let { prefs ->
-                weightKg = prefs.weightKg
-                val calories = calculateCalories(state, weightKg)
-                tvTotalCalories.text = "%.0f kcal".format(calories)
-            }
-        }
-
         val spinnerGear = view.findViewById<Spinner>(R.id.spinnerGear)
         var selectedGearId: Long? = null
 
@@ -99,27 +88,43 @@ class PostRunFragment : Fragment(R.layout.fragment_post_run) {
             drawPolyline(state)
         }
 
-        btnSaveActivity.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-                val uid = FirebaseAuth.getInstance().currentUser?.uid ?: "local_user"
-                withContext(Dispatchers.IO) {
-                    val db = AppDatabase.getInstance(requireContext())
-                    val repo = ActivityRepository(db)
-                    repo.saveActivity(
-                        userId = uid,
-                        sportType = state.sportType,
-                        durationSeconds = state.elapsedSeconds,
-                        distanceMeters = state.distanceMeters,
-                        pathPoints = state.pathPoints,
-                        weightKg = weightKg,
-                        gearId = selectedGearId
-                    )
-                    selectedGearId?.let { gearId ->
-                        gearViewModel.addKmToGear(gearId, state.distanceMeters / 1000f)
+        // Disabilitare il pulsante salva fino a quando il peso non è caricato
+        btnSaveActivity.isEnabled = false
+
+        val prefsRepo = UserPreferencesRepository(requireContext())
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val prefs = prefsRepo.userPreferencesFlow.first()
+            val weightKg = prefs.weightKg
+
+            val calories = calculateCalories(state, weightKg)
+            tvTotalCalories.text = "%.0f kcal".format(calories)
+
+            // Solo ora abilitiamo il salvataggio, con weightKg garantito
+            btnSaveActivity.isEnabled = true
+
+            btnSaveActivity.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val uid = FirebaseAuth.getInstance().currentUser?.uid ?: "local_user"
+                    withContext(Dispatchers.IO) {
+                        val db = AppDatabase.getInstance(requireContext())
+                        val repo = ActivityRepository(db)
+                        repo.saveActivity(
+                            userId = uid,
+                            sportType = state.sportType,
+                            durationSeconds = state.elapsedSeconds,
+                            distanceMeters = state.distanceMeters,
+                            pathPoints = state.pathPoints,
+                            weightKg = weightKg,
+                            gearId = selectedGearId
+                        )
+                        selectedGearId?.let { gearId ->
+                            db.gearDao().addKm(gearId, state.distanceMeters / 1000f)
+                        }
                     }
+                    TrackingRepository.resetState()
+                    findNavController().navigate(R.id.action_post_run_to_home)
                 }
-                TrackingRepository.resetState()
-                findNavController().navigate(R.id.action_post_run_to_home)
             }
         }
 
@@ -161,18 +166,4 @@ class PostRunFragment : Fragment(R.layout.fragment_post_run) {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        mapViewStatic.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapViewStatic.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapViewStatic.onDestroy()
-    }
 }

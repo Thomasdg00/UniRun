@@ -45,12 +45,13 @@ class WaterViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addWater(ml: Int = 250) {
         viewModelScope.launch(Dispatchers.IO) {
-            val current = db.waterLogDao().observeForDay(uid, today).first()?.mlConsumed ?: 0
+            val current = db.waterLogDao().observeForDay(uid, today).first()
             db.waterLogDao().upsert(
                 WaterLogEntity(
+                    id = current?.id ?: 0,
                     userId = uid,
                     dateEpochDay = today,
-                    mlConsumed = current + ml
+                    mlConsumed = (current?.mlConsumed ?: 0) + ml
                 )
             )
         }
@@ -58,10 +59,11 @@ class WaterViewModel(application: Application) : AndroidViewModel(application) {
 
     fun removeWater(ml: Int = 250) {
         viewModelScope.launch(Dispatchers.IO) {
-            val current = db.waterLogDao().observeForDay(uid, today).first()?.mlConsumed ?: 0
-            val newValue = (current - ml).coerceAtLeast(0)
+            val current = db.waterLogDao().observeForDay(uid, today).first()
+            val newValue = ((current?.mlConsumed ?: 0) - ml).coerceAtLeast(0)
             db.waterLogDao().upsert(
                 WaterLogEntity(
+                    id = current?.id ?: 0,
                     userId = uid,
                     dateEpochDay = today,
                     mlConsumed = newValue

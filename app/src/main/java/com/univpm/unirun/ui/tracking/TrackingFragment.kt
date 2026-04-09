@@ -1,6 +1,6 @@
 package com.univpm.unirun.ui.tracking
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -49,6 +49,7 @@ class TrackingFragment : Fragment() {
     private lateinit var btnStop: Button
 
     private var polylineAnnotationManager: PolylineAnnotationManager? = null
+    private var currentPolylineAnnotation: com.mapbox.maps.plugin.annotation.generated.PolylineAnnotation? = null
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -165,24 +166,28 @@ class TrackingFragment : Fragment() {
     }
 
     private fun updatePolyline(state: TrackingState) {
-        if (state.pathPoints.isNotEmpty()) {
-            val points = state.pathPoints.map { Point.fromLngLat(it.lon, it.lat) }
-            polylineAnnotationManager?.deleteAll()
-            val polylineAnnotationOptions = PolylineAnnotationOptions()
+        if (state.pathPoints.isEmpty()) return
+        val points = state.pathPoints.map { Point.fromLngLat(it.lon, it.lat) }
+        val manager = polylineAnnotationManager ?: return
+
+        if (currentPolylineAnnotation == null) {
+            val options = PolylineAnnotationOptions()
                 .withPoints(points)
                 .withLineColor("#EE4B2B")
                 .withLineWidth(5.0)
+            currentPolylineAnnotation = manager.create(options)
+        } else {
+            currentPolylineAnnotation!!.points = points
+            manager.update(currentPolylineAnnotation!!)
+        }
 
-            polylineAnnotationManager?.create(polylineAnnotationOptions)
-
-            state.currentLatLng?.let { latLng ->
-                mapView.mapboxMap.setCamera(
-                    CameraOptions.Builder()
-                        .center(Point.fromLngLat(latLng.lon, latLng.lat))
-                        .zoom(15.0)
-                        .build()
-                )
-            }
+        state.currentLatLng?.let { latLng ->
+            mapView.mapboxMap.setCamera(
+                CameraOptions.Builder()
+                    .center(Point.fromLngLat(latLng.lon, latLng.lat))
+                    .zoom(15.0)
+                    .build()
+            )
         }
     }
 

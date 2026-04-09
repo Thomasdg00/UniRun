@@ -67,7 +67,10 @@ data class GearEntity(
     val wearThresholdKm: Float
 )
 
-@Entity(tableName = "water_logs")
+@Entity(
+    tableName = "water_logs",
+    indices = [Index(value = ["userId", "dateEpochDay"], unique = true)]
+)
 data class WaterLogEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

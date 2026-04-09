@@ -11,7 +11,7 @@ import com.univpm.unirun.data.db.dao.WaterLogDao
 
 @Database(
     entities = [UserEntity::class, ActivityEntity::class, GearEntity::class, WaterLogEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

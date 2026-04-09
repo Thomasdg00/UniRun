@@ -245,18 +245,4 @@ class ActivityDetailFragment : Fragment(R.layout.fragment_activity_detail) {
                 android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 
-    override fun onStart() {
-        super.onStart()
-        mapViewDetail.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapViewDetail.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapViewDetail.onDestroy()
-    }
 }
