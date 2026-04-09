@@ -91,7 +91,17 @@ class TrackingFragment : Fragment() {
         }
 
         val sportType = arguments?.getString("sportType") ?: "RUN"
-        btnStart.setOnClickListener { trackingViewModel.startTracking(sportType) }
+        btnStart.setOnClickListener { 
+            if (PermissionManager.hasLocationPermissions(requireContext()) && 
+                PermissionManager.hasNotificationPermission(requireContext())) {
+                trackingViewModel.startTracking(sportType)
+            } else {
+                val missingPermissions = PermissionManager.getMissingPermissions(requireActivity())
+                if (missingPermissions.isNotEmpty()) {
+                    requestPermissionLauncher.launch(missingPermissions)
+                }
+            }
+        }
         btnPause.setOnClickListener { trackingViewModel.pauseTracking() }
         btnResume.setOnClickListener { trackingViewModel.resumeTracking() }
         btnStop.setOnClickListener { showStopConfirmationDialog() }
@@ -115,24 +125,17 @@ class TrackingFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
-
-        if (!PermissionManager.hasLocationPermissions(requireContext())) {
-            val missingPermissions = PermissionManager.getMissingPermissions(requireActivity())
-            if (missingPermissions.isNotEmpty()) {
-                requestPermissionLauncher.launch(missingPermissions)
-            }
-        }
+        // MapView lifecycle is handled automatically by Mapbox Maps SDK v11
     }
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
+        // MapView lifecycle is handled automatically by Mapbox Maps SDK v11
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mapView.onDestroy()
+        // MapView lifecycle is handled automatically by Mapbox Maps SDK v11
     }
 
     private fun updateDashboard(state: TrackingState) {
@@ -167,8 +170,8 @@ class TrackingFragment : Fragment() {
 
     private fun updatePolyline(state: TrackingState) {
         if (state.pathPoints.isEmpty()) return
-        val points = state.pathPoints.map { Point.fromLngLat(it.lon, it.lat) }
         val manager = polylineAnnotationManager ?: return
+        val points = state.pathPoints.map { Point.fromLngLat(it.lon, it.lat) }
 
         if (currentPolylineAnnotation == null) {
             val options = PolylineAnnotationOptions()
