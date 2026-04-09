@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kinetic_background"
+    tools:context=".ui.auth.RegisterFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="32dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="KINETIC"
+                android:textSize="22sp"
+                android:textStyle="bold|italic"
+                android:textColor="@color/kinetic_primary"
+                android:fontFamily="@font/font_headline" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="V0.9_ALPHA"
+                android:textSize="8sp"
+                android:textColor="@color/kinetic_on_surface_variant"
+                android:letterSpacing="0.15"
+                android:fontFamily="@font/font_label" />
+        </LinearLayout>
+
+        <!-- Hero Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JOIN THE\nMOVEMENT"
+            android:textSize="44sp"
+            android:textStyle="bold"
+            android:textColor="@color/kinetic_primary"
+            android:fontFamily="@font/font_headline"
+            android:letterSpacing="-0.05"
+            android:lineSpacingMultiplier="0.9"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PRECISION TRACKING SYSTEM"
+            android:textSize="11sp"
+            android:textColor="@color/kinetic_secondary"
+            android:letterSpacing="0.2"
+            android:fontFamily="@font/font_label"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Full Name Field -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_input_field"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FULL NAME"
+                android:textSize="9sp"
+                android:textColor="@color/kinetic_primary_container"
+                android:alpha="0.8"
+                android:letterSpacing="0.15"
+                android:fontFamily="@font/font_label"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤"
+                    android:textSize="18sp"
+                    android:textColor="@color/kinetic_outline"
+                    android:layout_marginEnd="12dp" />
+
+                <EditText
+                    android:id="@+id/etRegisterName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="ALEX RIDER"
+                    android:textColorHint="@color/kinetic_outline"
+                    android:textColor="@color/kinetic_on_surface"
+                    android:inputType="textPersonName"
+                    android:fontFamily="@font/font_headline"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Email Field -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_input_field"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EMAIL ADDRESS"
+                android:textSize="9sp"
+                android:textColor="@color/kinetic_primary_container"
+                android:alpha="0.8"
+                android:letterSpacing="0.15"
+                android:fontFamily="@font/font_label"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✉"
+                    android:textSize="18sp"
+                    android:textColor="@color/kinetic_outline"
+                    android:layout_marginEnd="12dp" />
+
+                <EditText
+                    android:id="@+id/etRegisterEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="ATHLETE@KINETIC.APP"
+                    android:textColorHint="@color/kinetic_outline"
+                    android:textColor="@color/kinetic_on_surface"
+                    android:inputType="textEmailAddress"
+                    android:fontFamily="@font/font_body"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Password Row (Two columns) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginBottom="16dp">
+
+            <!-- Password Field (Left) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_input_field"
+                android:padding="16dp"
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PASSWORD"
+                    android:textSize="9sp"
+                    android:textColor="@color/kinetic_primary_container"
+                    android:alpha="0.8"
+                    android:letterSpacing="0.15"
+                    android:fontFamily="@font/font_label"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔒"
+                        android:textSize="18sp"
+                        android:textColor="@color/kinetic_outline"
+                        android:layout_marginEnd="8dp" />
+
+                    <EditText
+                        android:id="@+id/etRegisterPassword"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="••••••••"
+                        android:textColorHint="@color/kinetic_outline"
+                        android:textColor="@color/kinetic_on_surface"
+                        android:inputType="textPassword"
+                        android:fontFamily="@font/font_body"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Confirm Password Field (Right) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_input_field"
+                android:padding="16dp"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONFIRM"
+                    android:textSize="9sp"
+                    android:textColor="@color/kinetic_primary_container"
+                    android:alpha="0.8"
+                    android:letterSpacing="0.15"
+                    android:fontFamily="@font/font_label"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔐"
+                        android:textSize="18sp"
+                        android:textColor="@color/kinetic_outline"
+                        android:layout_marginEnd="8dp" />
+
+                    <EditText
+                        android:id="@+id/etRegisterConfirmPassword"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="••••••••"
+                        android:textColorHint="@color/kinetic_outline"
+                        android:textColor="@color/kinetic_on_surface"
+                        android:inputType="textPassword"
+                        android:fontFamily="@font/font_body"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Terms Checkbox Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
+
+            <CheckBox
+                android:id="@+id/checkTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/kinetic_primary_container"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="I agree to the Terms &amp; Conditions and privacy policy"
+                android:textSize="13sp"
+                android:textColor="@color/kinetic_on_surface_variant"
+                android:fontFamily="@font/font_body" />
+        </LinearLayout>
+
+        <!-- CREATE ACCOUNT Button -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="CREATE ACCOUNT →"
+            android:textColor="@color/kinetic_on_primary_fixed"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:fontFamily="@font/font_headline"
+            android:background="@drawable/bg_button_primary"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Footer Link -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? "
+                android:textColor="@color/kinetic_on_surface_variant"
+                android:textSize="13sp"
+                android:fontFamily="@font/font_body" />
+
+            <TextView
+                android:id="@+id/tvGoToLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log In"
+                android:textColor="@color/kinetic_primary"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:fontFamily="@font/font_body" />
+        </LinearLayout>
+
+        <!-- Social Divider -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/kinetic_outline_variant"
+                android:alpha="0.2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOCIAL SYNC"
+                android:textSize="8sp"
+                android:letterSpacing="0.2"
+                android:textColor="@color/kinetic_outline"
+                android:fontFamily="@font/font_label"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/kinetic_outline_variant"
+                android:alpha="0.2" />
+        </LinearLayout>
+
+        <!-- Social Buttons Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <!-- Google Button -->
+            <Button
+                android:id="@+id/btnRegisterGoogleSignIn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="GOOGLE"
+                android:textColor="@color/kinetic_on_surface"
+                android:textSize="10sp"
+                android:fontFamily="@font/font_label"
+                android:background="@drawable/bg_input_field"
+                android:drawableStart="@drawable/ic_google"
+                android:drawablePadding="8dp" />
+
+            <!-- Apple Button -->
+            <Button
+                android:id="@+id/btnRegisterAppleSignIn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="APPLE"
+                android:textColor="@color/kinetic_on_surface"
+                android:textSize="10sp"
+                android:fontFamily="@font/font_label"
+                android:background="@drawable/bg_input_field" />
+        </LinearLayout>
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp" />
+
+        <!-- Error Message -->
+        <TextView
+            android:id="@+id/tvRegisterError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/kinetic_error"
+            android:background="@drawable/bg_error_message"
+            android:padding="12dp"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/font_body"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</ScrollView>

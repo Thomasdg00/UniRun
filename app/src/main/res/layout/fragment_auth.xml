@@ -1,135 +1,404 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/kinetic_background"
+    tools:context=".ui.auth.AuthFragment">
 
-    <LinearLayout
+    <!-- Gradient Background -->
+    <View
+        android:id="@+id/gradientBackground"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_kinetic_gradient"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Top-right Glow (lime/yellow decorative element) -->
+    <View
+        android:id="@+id/glowTopRight"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_glow_primary"
+        android:alpha="0.05"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="-60dp"
+        android:layout_marginEnd="-60dp" />
+
+    <!-- Bottom-left Glow (cyan decorative element) -->
+    <View
+        android:id="@+id/glowBottomLeft"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_glow_secondary"
+        android:alpha="0.05"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="-60dp"
+        android:layout_marginStart="-60dp" />
+
+    <!-- Brand Section -->
+    <TextView
+        android:id="@+id/tvBrand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KINETIC"
+        android:textSize="48sp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/kinetic_primary"
+        android:letterSpacing="-0.05"
+        android:fontFamily="@font/font_headline"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Brand Divider Line -->
+    <View
+        android:id="@+id/brandDivider"
+        android:layout_width="48dp"
+        android:layout_height="4dp"
+        android:background="@color/kinetic_secondary"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBrand" />
+
+    <!-- Headline -->
+    <TextView
+        android:id="@+id/tvHeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome Back"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/kinetic_on_surface"
+        android:fontFamily="@font/font_headline"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/brandDivider" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENTER YOUR CREDENTIALS TO CONTINUE PERFORMANCE TRACKING"
+        android:textSize="10sp"
+        android:textColor="@color/kinetic_on_surface_variant"
+        android:letterSpacing="0.15"
+        android:fontFamily="@font/font_label"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeadline" />
+
+    <!-- Email Input Card -->
+    <LinearLayout
+        android:id="@+id/emailCardContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:background="@drawable/bg_input_field"
+        android:padding="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
 
-        <!-- Logo / Title -->
+        <!-- Email Label -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UniRun"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:textColor="#2196F3"
+            android:text="EMAIL ADDRESS"
+            android:textSize="9sp"
+            android:textColor="@color/kinetic_primary_container"
+            android:alpha="0.8"
+            android:letterSpacing="0.15"
+            android:fontFamily="@font/font_label"
             android:layout_marginBottom="8dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Accedi al tuo account"
-            android:textSize="16sp"
-            android:textColor="#666666"
-            android:layout_marginBottom="32dp" />
-
-        <!-- Email -->
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Password -->
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Forgot Password -->
-        <TextView
-            android:id="@+id/btnForgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password dimenticata?"
-            android:textSize="12sp"
-            android:textColor="#2196F3"
-            android:layout_gravity="end"
-            android:layout_marginBottom="24dp"
-            android:paddingEnd="8dp" />
-
-        <!-- Login Button -->
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="ACCEDI"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="#2196F3"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Register Button -->
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="REGISTRATI"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="#9E9E9E"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Divider -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Google Sign-In Button -->
-        <Button
-            android:id="@+id/btnGoogleSignIn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="ACCEDI CON GOOGLE"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="@android:color/white"
-            android:textColor="#222222"
-            android:drawableStart="@drawable/ic_google"
-            android:drawablePadding="12dp"
-            android:paddingStart="12dp"
-            android:layout_marginBottom="32dp" />
-
-        <!-- Progress Bar -->
-        <ProgressBar
-            android:id="@+id/progressAuth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="16dp" />
-
-        <!-- Error Message -->
-        <TextView
-            android:id="@+id/tvAuthError"
+        <!-- Email Input -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#F44336"
-            android:visibility="gone"
-            android:layout_marginTop="16dp"
-            android:padding="12dp"
-            android:background="#FFEBEE" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✉"
+                android:textSize="18sp"
+                android:textColor="@color/kinetic_outline"
+                android:layout_marginEnd="12dp" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="athlete@kinetic.io"
+                android:textColorHint="@color/kinetic_outline"
+                android:textColor="@color/kinetic_on_surface"
+                android:inputType="textEmailAddress"
+                android:fontFamily="@font/font_body"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 
-</ScrollView>
+    <!-- Password Input Card -->
+    <LinearLayout
+        android:id="@+id/passwordCardContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_input_field"
+        android:padding="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailCardContainer">
 
+        <!-- Password Label Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PASSWORD"
+                android:textSize="9sp"
+                android:textColor="@color/kinetic_primary_container"
+                android:alpha="0.8"
+                android:letterSpacing="0.15"
+                android:fontFamily="@font/font_label" />
+
+            <TextView
+                android:id="@+id/btnForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot password?"
+                android:textSize="9sp"
+                android:textColor="@color/kinetic_secondary"
+                android:fontFamily="@font/font_label" />
+        </LinearLayout>
+
+        <!-- Password Input -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔒"
+                android:textSize="18sp"
+                android:textColor="@color/kinetic_outline"
+                android:layout_marginEnd="12dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="••••••••"
+                android:textColorHint="@color/kinetic_outline"
+                android:textColor="@color/kinetic_on_surface"
+                android:inputType="textPassword"
+                android:fontFamily="@font/font_body"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btnTogglePassword"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="Toggle password visibility"
+                android:scaleType="centerInside" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- LOGIN Button -->
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="LOGIN"
+        android:textColor="@color/kinetic_on_primary_fixed"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:fontFamily="@font/font_headline"
+        android:background="@drawable/bg_button_primary"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordCardContainer" />
+
+    <!-- Divider with Label -->
+    <LinearLayout
+        android:id="@+id/dividerWithLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/kinetic_outline_variant"
+            android:alpha="0.2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SOCIAL VELOCITY"
+            android:textSize="8sp"
+            android:letterSpacing="0.2"
+            android:textColor="@color/kinetic_outline"
+            android:fontFamily="@font/font_label"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/kinetic_outline_variant"
+            android:alpha="0.2" />
+    </LinearLayout>
+
+    <!-- Social Buttons Row -->
+    <LinearLayout
+        android:id="@+id/socialButtonsRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerWithLabel">
+
+        <!-- Google Button -->
+        <Button
+            android:id="@+id/btnGoogleSignIn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="GOOGLE"
+            android:textColor="@color/kinetic_on_surface"
+            android:textSize="10sp"
+            android:fontFamily="@font/font_label"
+            android:background="@drawable/bg_input_field"
+            android:drawableStart="@drawable/ic_google"
+            android:drawablePadding="8dp" />
+
+        <!-- Apple Button -->
+        <Button
+            android:id="@+id/btnAppleSignIn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="APPLE"
+            android:textColor="@color/kinetic_on_surface"
+            android:textSize="10sp"
+            android:fontFamily="@font/font_label"
+            android:background="@drawable/bg_input_field" />
+    </LinearLayout>
+
+    <!-- Footer Container -->
+    <LinearLayout
+        android:id="@+id/footerContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/socialButtonsRow"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? "
+            android:textColor="@color/kinetic_on_surface"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_body" />
+
+        <TextView
+            android:id="@+id/tvGoToRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="@color/kinetic_secondary"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:fontFamily="@font/font_body" />
+    </LinearLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Error Message -->
+    <TextView
+        android:id="@+id/tvAuthError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/kinetic_error"
+        android:background="@drawable/bg_error_message"
+        android:padding="12dp"
+        android:visibility="gone"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/font_body"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -134,6 +134,27 @@
             app:destination="@id/onboardingFragment"
             app:popUpTo="@id/authFragment"
             app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_auth_to_register"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.univpm.unirun.ui.auth.RegisterFragment"
+        android:label="Registrazione"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/action_register_to_onboarding"
+            app:destination="@id/onboardingFragment"
+            app:popUpTo="@id/authFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

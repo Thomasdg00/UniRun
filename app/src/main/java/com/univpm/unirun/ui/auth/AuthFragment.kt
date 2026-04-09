@@ -36,7 +36,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnLogin: Button
-    private lateinit var btnRegister: Button
+    private lateinit var tvGoToRegister: TextView
     private lateinit var btnGoogleSignIn: Button
     private lateinit var btnForgotPassword: TextView
     private lateinit var tvAuthError: TextView
@@ -69,7 +69,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         etEmail = view.findViewById(R.id.etEmail)
         etPassword = view.findViewById(R.id.etPassword)
         btnLogin = view.findViewById(R.id.btnLogin)
-        btnRegister = view.findViewById(R.id.btnRegister)
+        tvGoToRegister = view.findViewById(R.id.tvGoToRegister)
         btnGoogleSignIn = view.findViewById(R.id.btnGoogleSignIn)
         btnForgotPassword = view.findViewById(R.id.btnForgotPassword)
         tvAuthError = view.findViewById(R.id.tvAuthError)
@@ -77,7 +77,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
         // Set up click listeners
         btnLogin.setOnClickListener { handleLogin() }
-        btnRegister.setOnClickListener { handleRegister() }
+        tvGoToRegister.setOnClickListener { findNavController().navigate(R.id.action_auth_to_register) }
         btnGoogleSignIn.setOnClickListener { handleGoogleSignIn() }
         btnForgotPassword.setOnClickListener { handleForgotPassword() }
 
@@ -93,15 +93,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
         authViewModel.signInWithEmail(email, password)
-    }
-
-    /**
-     * Handles email/password registration.
-     */
-    private fun handleRegister() {
-        val email = etEmail.text.toString().trim()
-        val password = etPassword.text.toString().trim()
-        authViewModel.signUpWithEmail(email, password)
     }
 
     /**
@@ -223,7 +214,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
      */
     private fun enableButtons(enabled: Boolean) {
         btnLogin.isEnabled = enabled
-        btnRegister.isEnabled = enabled
+        tvGoToRegister.isEnabled = enabled
         btnGoogleSignIn.isEnabled = enabled
         btnForgotPassword.isEnabled = enabled
     }

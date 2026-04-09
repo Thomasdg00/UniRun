@@ -13,4 +13,22 @@
     <color name="accent_red">#EE4B2B</color>
     <color name="accent_green">#4CAF50</color>
     <color name="accent_blue">#2196F3</color>
+
+    <!-- Kinetic Design System Colors (Light Mode) -->
+    <color name="kinetic_background">#090e1c</color>
+    <color name="kinetic_surface_container">#13192b</color>
+    <color name="kinetic_surface_container_high">#181f33</color>
+    <color name="kinetic_surface_container_highest">#1e253b</color>
+    <color name="kinetic_surface_bright">#242b43</color>
+    <color name="kinetic_primary">#f3ffca</color>
+    <color name="kinetic_primary_container">#cafd00</color>
+    <color name="kinetic_primary_dim">#beee00</color>
+    <color name="kinetic_on_primary_fixed">#3a4a00</color>
+    <color name="kinetic_secondary">#00e3fd</color>
+    <color name="kinetic_outline">#707588</color>
+    <color name="kinetic_outline_variant">#434759</color>
+    <color name="kinetic_on_surface">#e1e4fa</color>
+    <color name="kinetic_on_surface_variant">#a6aabf</color>
+    <color name="kinetic_error">#ff7351</color>
+    <color name="kinetic_error_bg">#b92902</color>
 </resources>
