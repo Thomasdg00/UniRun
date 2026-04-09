@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.univpm.unirun.R
 import com.univpm.unirun.viewmodel.AuthState
 import com.univpm.unirun.viewmodel.AuthViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -113,7 +114,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             .build()
 
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-        googleSignInLauncher.launch(googleSignInClient.signInIntent)
+        // Forza il sign-out dal client Google per mostrare sempre il selettore account
+        googleSignInClient.signOut().addOnCompleteListener {
+            googleSignInLauncher.launch(googleSignInClient.signInIntent)
+        }
     }
 
     /**
@@ -203,16 +207,13 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
      */
     private fun navigateBasedOnAuthState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            authViewModel.authState.collect { state ->
-                when (state) {
-                    is AuthState.Authenticated -> {
-                        findNavController().navigate(R.id.action_auth_to_home)
-                    }
-                    is AuthState.OnboardingNeeded -> {
-                        findNavController().navigate(R.id.action_auth_to_onboarding)
-                    }
-                    else -> {} // Stay on auth screen
-                }
+            val state = authViewModel.authState.first { 
+                it is AuthState.Authenticated || it is AuthState.OnboardingNeeded 
+            }
+            when (state) {
+                is AuthState.Authenticated -> findNavController().navigate(R.id.action_auth_to_home)
+                is AuthState.OnboardingNeeded -> findNavController().navigate(R.id.action_auth_to_onboarding)
+                else -> {}
             }
         }
     }

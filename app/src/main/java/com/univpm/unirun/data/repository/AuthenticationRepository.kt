@@ -6,6 +6,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.univpm.unirun.data.db.AppDatabase
 import com.univpm.unirun.data.db.UserEntity
 import com.univpm.unirun.data.preferences.UserPreferencesRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -102,11 +103,7 @@ class AuthenticationRepository(
      * Reads from DataStore via UserPreferencesRepository.
      */
     suspend fun isOnboardingDone(): Boolean {
-        var onboardingDone = false
-        preferencesRepository.userPreferencesFlow.collect { prefs ->
-            onboardingDone = prefs.onboardingDone
-        }
-        return onboardingDone
+        return preferencesRepository.userPreferencesFlow.first().onboardingDone
     }
 
     /**
