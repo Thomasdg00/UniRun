@@ -18,6 +18,7 @@ secrets.properties
 *.keystore
 *.jks
 mapbox_token.txt
+app/src/main/res/values/secrets.xml
 
 # Room schema export (opzionale, spesso ignorato)
 app/schemas/
