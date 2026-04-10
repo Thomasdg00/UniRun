@@ -33,7 +33,7 @@ fun HomeRoute(
             // Handle menu click; e.g., open drawer or show menu
         },
         onSettingsClick = {
-            navController.navigate("settings")
+            navController.navigate("profile")
         },
         onStartActivityClick = {
             navController.navigate("sport_selection")

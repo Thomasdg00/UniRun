@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.univpm.unirun.ui.components.StatCard
 import com.univpm.unirun.ui.theme.KineticTheme
 import com.univpm.unirun.viewmodel.HistoryItem
 import java.util.Locale
@@ -113,10 +114,10 @@ fun ProfileScreen(
                             .padding(top = 12.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        StatCard(label = "Distance", value = String.format(Locale.getDefault(), "%.1f km", totalDistanceKm), modifier = Modifier.weight(1f))
-                        StatCard(label = "Activities", value = totalActivities.toString(), modifier = Modifier.weight(1f))
-                        StatCard(label = "Avg Pace", value = avgPaceFormatted, modifier = Modifier.weight(1f))
-                        StatCard(label = "Calories", value = totalCalories.toString(), modifier = Modifier.weight(1f))
+                        StatCard(title = "Distance", value = String.format(Locale.getDefault(), "%.1f km", totalDistanceKm), subtitle = "All time", modifier = Modifier.weight(1f))
+                        StatCard(title = "Activities", value = totalActivities.toString(), subtitle = "Sessions", modifier = Modifier.weight(1f), accentColor = MaterialTheme.colorScheme.secondary)
+                        StatCard(title = "Avg pace", value = avgPaceFormatted, subtitle = "min/km", modifier = Modifier.weight(1f), accentColor = MaterialTheme.colorScheme.tertiary)
+                        StatCard(title = "Calories", value = totalCalories.toString(), subtitle = "Burned", modifier = Modifier.weight(1f))
                     }
                 }
             }
@@ -131,8 +132,8 @@ fun ProfileScreen(
                             .padding(top = 12.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        StatCard(label = "This Month", value = String.format(Locale.getDefault(), "%.1f km", monthlyKm), modifier = Modifier.weight(1f))
-                        StatCard(label = "Time", value = monthlyTimeFormatted, modifier = Modifier.weight(1f))
+                        StatCard(title = "This month", value = String.format(Locale.getDefault(), "%.1f km", monthlyKm), subtitle = "Distance", modifier = Modifier.weight(1f))
+                        StatCard(title = "Time", value = monthlyTimeFormatted, subtitle = "Active time", modifier = Modifier.weight(1f), accentColor = MaterialTheme.colorScheme.secondary)
                     }
                 }
             }
@@ -152,22 +153,6 @@ fun ProfileScreen(
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun StatCard(label: String, value: String, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(label, style = MaterialTheme.typography.labelSmall, fontSize = 8.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(value, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 6.dp))
         }
     }
 }

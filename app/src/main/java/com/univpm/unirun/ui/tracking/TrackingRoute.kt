@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.first
 fun TrackingRoute(
     trackingViewModel: TrackingViewModel,
     navController: NavController,
+    initialSportType: String = "RUN",
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -45,10 +46,12 @@ fun TrackingRoute(
     }
 
     // Initialize sport type from repository
-    LaunchedEffect(Unit) {
+    LaunchedEffect(initialSportType) {
         val currentStatus = TrackingRepository.state.value.status
         if (currentStatus == TrackingStatus.IDLE) {
-            sportType = TrackingRepository.state.value.sportType.ifEmpty { "RUN" }
+            sportType = initialSportType.ifBlank {
+                TrackingRepository.state.value.sportType.ifEmpty { "RUN" }
+            }
         } else {
             sportType = TrackingRepository.state.value.sportType
             trackingStarted = true
@@ -82,9 +85,7 @@ fun TrackingRoute(
         },
         onStopClick = {
             trackingViewModel.stopTracking()
-            navController.navigate("post_run") {
-                popUpTo("tracking") { inclusive = true }
-            }
+            navController.navigate("post_run")
         },
         onShowStopDialog = { show -> showStopDialog = show },
         showStopDialog = showStopDialog,
@@ -92,14 +93,10 @@ fun TrackingRoute(
             navController.navigateUp()
         },
         onHomeClick = {
-            navController.navigate("home") {
-                popUpTo("tracking") { inclusive = true }
-            }
+            navController.navigate("home")
         },
         onProfileClick = {
-            navController.navigate("profile") {
-                popUpTo("tracking") { inclusive = true }
-            }
+            navController.navigate("profile")
         },
         onMyLocationClick = {
             trackingState.currentLatLng?.let { latLng ->
