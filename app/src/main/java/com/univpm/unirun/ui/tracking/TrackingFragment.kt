@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -27,6 +29,7 @@ import com.mapbox.maps.plugin.annotation.generated.PolylineAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPolylineAnnotationManager
 import com.univpm.unirun.R
 import com.univpm.unirun.data.preferences.UserPreferencesRepository
+import com.univpm.unirun.data.repository.TrackingRepository
 import com.univpm.unirun.data.repository.TrackingState
 import com.univpm.unirun.data.repository.TrackingStatus
 import com.univpm.unirun.utils.PermissionManager
@@ -48,12 +51,16 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private lateinit var tvCalories: TextView
     private lateinit var btnPauseResume: MaterialButton
     private lateinit var btnStop: MaterialButton
+    private lateinit var btnSportSelector: LinearLayout
+    private lateinit var tvSportIcon: TextView
+    private lateinit var tvGpsStatus: TextView
 
     private var sportType: String = "RUN"
     private var weightKg: Float = 70f
     private var latestState: TrackingState = TrackingState()
     private var polylineAnnotationManager: PolylineAnnotationManager? = null
     private var currentPolylineAnnotation: PolylineAnnotation? = null
+    private var trackingStarted = false
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -73,19 +80,27 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sportType = arguments?.getString("sportType") ?: "RUN"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val currentStatus = TrackingRepository.state.value.status
+        if (currentStatus == TrackingStatus.IDLE) {
+            sportType = TrackingRepository.state.value.sportType.ifEmpty { "RUN" }
+        } else {
+            sportType = TrackingRepository.state.value.sportType
+            trackingStarted = true
+        }
+
         bindViews(view)
         setupChrome(view)
+        setupSportSelector()
         setupMap()
         loadWeight()
         observeTracking()
-        startTrackingIfPossible()
+
+        if (!trackingStarted) {
+            startTrackingIfPossible()
+        }
     }
 
     private fun bindViews(view: View) {
@@ -98,6 +113,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         tvCalories = view.findViewById(R.id.tvCalories)
         btnPauseResume = view.findViewById(R.id.btnPauseResume)
         btnStop = view.findViewById(R.id.btnStop)
+        btnSportSelector = view.findViewById(R.id.btnSportSelector)
+        tvSportIcon = view.findViewById(R.id.tvSportIcon)
+        tvGpsStatus = view.findViewById(R.id.tvGpsStatus)
     }
 
     private fun setupChrome(view: View) {
@@ -105,6 +123,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             findNavController().navigateUp()
         }
         view.findViewById<View>(R.id.btnSettingsTracking).setOnClickListener { }
+
         view.findViewById<View>(R.id.btnMyLocation).setOnClickListener {
             latestState.currentLatLng?.let { latLng ->
                 mapView.mapboxMap.setCamera(
@@ -116,6 +135,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             }
         }
         view.findViewById<View>(R.id.btnMapLayers).setOnClickListener { }
+
         view.findViewById<View>(R.id.navHomeTracking).setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
         }
@@ -134,6 +154,42 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
         tvHeartRate.text = "--"
         tvElevation.text = "--"
+    }
+
+    private fun setupSportSelector() {
+        updateSportIcon()
+        btnSportSelector.setOnClickListener { anchor ->
+            if (latestState.status != TrackingStatus.IDLE || trackingStarted) {
+                Snackbar.make(requireView(), "Sport non modificabile durante la sessione", Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val popup = PopupMenu(requireContext(), anchor)
+            popup.menu.add(0, 0, 0, "🏃  Corsa")
+            popup.menu.add(0, 1, 1, "🚶  Camminata")
+            popup.menu.add(0, 2, 2, "🚴  Bici")
+
+            popup.setOnMenuItemClickListener { item ->
+                sportType = when (item.itemId) {
+                    0 -> "RUN"
+                    1 -> "WALK"
+                    2 -> "BIKE"
+                    else -> "RUN"
+                }
+                updateSportIcon()
+                true
+            }
+            popup.show()
+        }
+    }
+
+    private fun updateSportIcon() {
+        tvSportIcon.text = when (sportType) {
+            "RUN" -> "🏃"
+            "WALK" -> "🚶"
+            "BIKE" -> "🚴"
+            else -> "🏃"
+        }
     }
 
     private fun setupMap() {
@@ -158,17 +214,19 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
                     updateDashboard(state)
                     updatePauseResumeButton(state)
                     updatePolyline(state)
+                    updateGpsStatus(state)
                 }
             }
         }
     }
 
     private fun startTrackingIfPossible() {
-        if (trackingViewModel.trackingState.value.status != TrackingStatus.IDLE) return
+        if (trackingStarted) return
 
         if (PermissionManager.hasLocationPermissions(requireContext()) &&
             PermissionManager.hasNotificationPermission(requireContext())
         ) {
+            trackingStarted = true
             trackingViewModel.startTracking(sportType)
         } else {
             val missingPermissions = PermissionManager.getMissingPermissions(requireActivity())
@@ -196,21 +254,27 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         tvCalories.text = String.format(Locale.getDefault(), "%.0f", calories)
     }
 
+    private fun updateGpsStatus(state: TrackingState) {
+        val hasSignal = state.currentLatLng != null
+        tvGpsStatus.text = if (hasSignal) "GPS ACTIVE" else "GPS SEARCH"
+        view?.findViewById<View>(R.id.viewGpsDot)?.alpha = if (hasSignal) 1f else 0.4f
+    }
+
     private fun updatePauseResumeButton(state: TrackingState) {
         when (state.status) {
             TrackingStatus.PAUSED -> {
                 btnPauseResume.isEnabled = true
-                btnPauseResume.text = "RESUME SESSION"
+                btnPauseResume.text = "RESUME"
                 btnPauseResume.setIconResource(android.R.drawable.ic_media_play)
             }
             TrackingStatus.RUNNING -> {
                 btnPauseResume.isEnabled = true
-                btnPauseResume.text = "PAUSE SESSION"
+                btnPauseResume.text = "PAUSE"
                 btnPauseResume.setIconResource(android.R.drawable.ic_media_pause)
             }
             TrackingStatus.IDLE -> {
                 btnPauseResume.isEnabled = false
-                btnPauseResume.text = "PAUSE SESSION"
+                btnPauseResume.text = "PAUSE"
                 btnPauseResume.setIconResource(android.R.drawable.ic_media_pause)
             }
         }
@@ -218,15 +282,14 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private fun updatePolyline(state: TrackingState) {
         if (state.pathPoints.isEmpty()) return
-
         val manager = polylineAnnotationManager ?: return
         val points = state.pathPoints.map { Point.fromLngLat(it.lon, it.lat) }
 
         if (currentPolylineAnnotation == null) {
             val options = PolylineAnnotationOptions()
                 .withPoints(points)
-                .withLineColor("#EE4B2B")
-                .withLineWidth(5.0)
+                .withLineColor("#00E3FD")
+                .withLineWidth(4.0)
             currentPolylineAnnotation = manager.create(options)
         } else {
             currentPolylineAnnotation?.points = points
@@ -246,7 +309,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private fun showStopConfirmationDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Terminare allenamento?")
-            .setMessage("Vuoi terminare l'allenamento?")
+            .setMessage("Vuoi terminare e salvare l'allenamento?")
             .setPositiveButton("Sì") { _, _ ->
                 trackingViewModel.stopTracking()
                 findNavController().navigate(R.id.action_tracking_to_post_run)

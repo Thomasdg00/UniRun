@@ -9,11 +9,22 @@ import android.os.Build
 import android.os.IBinder
 import android.os.Looper
 import androidx.core.app.NotificationCompat
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.univpm.unirun.data.repository.LatLng
 import com.univpm.unirun.data.repository.TrackingRepository
 import com.univpm.unirun.data.repository.TrackingStatus
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class TrackingService : Service() {
 
@@ -24,13 +35,13 @@ class TrackingService : Service() {
         const val ACTION_STOP = "ACTION_STOP"
         private const val CHANNEL_ID = "unirun_tracking"
         private const val NOTIFICATION_ID = 1
-        private const val GPS_MIN_ACCURACY_M = 20f
+        private const val GPS_MIN_ACCURACY_M = 25f
     }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private var isTimerRunning = false
     private var timerJob: Job? = null
+    private var isTimerRunning = false
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
@@ -54,20 +65,34 @@ class TrackingService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_START -> handleStart()
-            ACTION_PAUSE -> handlePause()
-            ACTION_RESUME -> handleResume()
-            ACTION_STOP -> handleStop()
+            ACTION_START -> {
+                startForeground(NOTIFICATION_ID, buildNotification("Registrazione in corso..."))
+                handleStart()
+            }
+            ACTION_PAUSE -> {
+                handlePause()
+            }
+            ACTION_RESUME -> {
+                startForeground(NOTIFICATION_ID, buildNotification("Registrazione in corso..."))
+                handleResume()
+            }
+            ACTION_STOP -> {
+                handleStop()
+            }
+            else -> {
+                if (TrackingRepository.state.value.status == TrackingStatus.RUNNING) {
+                    startForeground(NOTIFICATION_ID, buildNotification("Registrazione in corso..."))
+                }
+            }
         }
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     private fun handleStart() {
-        val currentSportType = TrackingRepository.state.value.sportType
+        val sportType = TrackingRepository.state.value.sportType.ifEmpty { "RUN" }
         if (TrackingRepository.state.value.status != TrackingStatus.RUNNING) {
-            TrackingRepository.startTracking(currentSportType)
+            TrackingRepository.startTracking(sportType)
         }
-        startForeground(NOTIFICATION_ID, buildNotification("Registrazione in corso..."))
         startLocationUpdates()
         startTimer()
     }
@@ -77,28 +102,27 @@ class TrackingService : Service() {
         stopLocationUpdates()
         stopTimer()
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, buildNotification("In pausa"))
+        notificationManager.notify(NOTIFICATION_ID, buildNotification("In pausa — tocca per riprendere"))
     }
 
     private fun handleResume() {
         TrackingRepository.resumeTracking()
         startLocationUpdates()
         startTimer()
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, buildNotification("Registrazione in corso..."))
     }
 
     private fun handleStop() {
-        TrackingRepository.stopTracking()
         stopLocationUpdates()
         stopTimer()
+        TrackingRepository.stopTracking()
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
 
     private fun startLocationUpdates() {
-        val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 3000L).apply {
-            setMinUpdateDistanceMeters(5f)
+        val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 2000L).apply {
+            setMinUpdateDistanceMeters(3f)
+            setWaitForAccurateLocation(false)
         }.build()
 
         try {
@@ -113,14 +137,15 @@ class TrackingService : Service() {
     }
 
     private fun startTimer() {
+        if (isTimerRunning) return
         isTimerRunning = true
         timerJob = serviceScope.launch {
             while (isTimerRunning) {
+                delay(1000L)
                 if (TrackingRepository.state.value.status == TrackingStatus.RUNNING) {
                     val currentElapsed = TrackingRepository.state.value.elapsedSeconds
                     TrackingRepository.updateElapsed(currentElapsed + 1)
                 }
-                delay(1000L)
             }
         }
     }
@@ -128,15 +153,19 @@ class TrackingService : Service() {
     private fun stopTimer() {
         isTimerRunning = false
         timerJob?.cancel()
+        timerJob = null
     }
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Tracking Service",
+                "UniRun Tracking",
                 NotificationManager.IMPORTANCE_LOW
-            )
+            ).apply {
+                description = "Notifica attiva durante il tracciamento GPS"
+                setShowBadge(false)
+            }
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(channel)
         }
@@ -147,13 +176,15 @@ class TrackingService : Service() {
         .setContentText(text)
         .setSmallIcon(android.R.drawable.ic_menu_mylocation)
         .setOngoing(true)
+        .setSilent(true)
         .build()
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
         super.onDestroy()
-        serviceScope.cancel()
+        stopTimer()
         stopLocationUpdates()
+        serviceScope.cancel()
     }
 }

@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="@color/kinetic_background"
-        android:elevation="8dp"
+        android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="16dp"
@@ -51,10 +51,10 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="8dp"
                 app:cardBackgroundColor="@color/kinetic_surface_container_high"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="15dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -66,13 +66,14 @@
                     android:paddingEnd="10dp">
 
                     <View
+                        android:id="@+id/viewGpsDot"
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_nav_active"
-                        android:backgroundTint="@color/kinetic_secondary" />
+                        android:background="@drawable/bg_glow_secondary" />
 
                     <TextView
+                        android:id="@+id/tvGpsStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/font_label"
@@ -98,10 +99,12 @@
     <FrameLayout
         android:id="@+id/mapSection"
         android:layout_width="0dp"
-        android:layout_height="280dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.35"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar">
+        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintWidth_percent="1">
 
         <com.mapbox.maps.MapView
             android:id="@+id/mapView"
@@ -110,9 +113,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="120dp"
             android:layout_gravity="bottom"
-            android:alpha="0.85"
             android:background="@drawable/bg_kinetic_gradient" />
 
         <FrameLayout
@@ -121,19 +123,16 @@
             android:layout_gravity="center">
 
             <View
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:alpha="0.2"
-                android:background="@drawable/bg_nav_active"
-                android:backgroundTint="@color/kinetic_secondary" />
+                android:background="@drawable/bg_glow_secondary" />
 
             <View
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_nav_active"
-                android:backgroundTint="@color/kinetic_secondary" />
+                android:background="@drawable/bg_glow_secondary" />
         </FrameLayout>
 
         <LinearLayout
@@ -189,7 +188,7 @@
         android:id="@+id/performanceCanvas"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingTop="20dp"
+        android:paddingTop="16dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -203,7 +202,7 @@
             android:fillViewport="true"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
-            android:paddingBottom="16dp"
+            android:paddingBottom="8dp"
             app:layout_constraintBottom_toTopOf="@id/actionZone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +226,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="4dp"
                     android:baselineAligned="true"
                     android:gravity="bottom"
                     android:orientation="horizontal">
@@ -244,21 +243,19 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvDurationFraction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="4dp"
                         android:fontFamily="@font/font_headline"
                         android:text=".00"
                         android:textColor="@color/kinetic_outline_variant"
-                        android:textSize="36sp"
-                        android:textStyle="bold" />
+                        android:textSize="36sp" />
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="12dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardDistance"
@@ -300,7 +297,7 @@
                                 android:id="@+id/tvDistance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="18dp"
+                                android:layout_marginTop="14dp"
                                 android:fontFamily="@font/font_headline"
                                 android:text="0.00"
                                 android:textColor="@color/kinetic_on_surface"
@@ -358,7 +355,7 @@
                                 android:id="@+id/tvPace"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="18dp"
+                                android:layout_marginTop="14dp"
                                 android:fontFamily="@font/font_headline"
                                 android:text="--:--"
                                 android:textColor="@color/kinetic_primary"
@@ -409,13 +406,13 @@
                                     android:fontFamily="@font/font_label"
                                     android:text="HEART RATE"
                                     android:textColor="@color/kinetic_on_surface_variant"
-                                    android:textSize="10sp" />
+                                    android:textSize="9sp" />
 
                                 <TextView
                                     android:id="@+id/tvHeartRate"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginTop="6dp"
                                     android:fontFamily="@font/font_headline"
                                     android:text="--"
                                     android:textColor="@color/kinetic_error"
@@ -425,7 +422,7 @@
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="40dp"
+                                android:layout_height="32dp"
                                 android:background="@color/kinetic_outline_variant" />
 
                             <LinearLayout
@@ -441,13 +438,13 @@
                                     android:fontFamily="@font/font_label"
                                     android:text="ELEVATION"
                                     android:textColor="@color/kinetic_on_surface_variant"
-                                    android:textSize="10sp" />
+                                    android:textSize="9sp" />
 
                                 <TextView
                                     android:id="@+id/tvElevation"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginTop="6dp"
                                     android:fontFamily="@font/font_headline"
                                     android:text="--"
                                     android:textColor="@color/kinetic_secondary"
@@ -457,7 +454,7 @@
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="40dp"
+                                android:layout_height="32dp"
                                 android:background="@color/kinetic_outline_variant" />
 
                             <LinearLayout
@@ -473,13 +470,13 @@
                                     android:fontFamily="@font/font_label"
                                     android:text="CALORIES"
                                     android:textColor="@color/kinetic_on_surface_variant"
-                                    android:textSize="10sp" />
+                                    android:textSize="9sp" />
 
                                 <TextView
                                     android:id="@+id/tvCalories"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginTop="6dp"
                                     android:fontFamily="@font/font_headline"
                                     android:text="0"
                                     android:textColor="#FFEEA5"
@@ -499,12 +496,47 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="24dp"
-            android:paddingTop="12dp"
+            android:paddingTop="8dp"
             android:paddingEnd="24dp"
-            android:paddingBottom="16dp"
+            android:paddingBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginEnd="12dp"
+                app:cardBackgroundColor="@color/kinetic_surface_container_highest"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:id="@+id/btnSportSelector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/tvSportIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🏃"
+                        android:textSize="22sp" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@android:drawable/arrow_down_float"
+                        android:tint="@color/kinetic_on_surface_variant" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPauseResume"
@@ -514,7 +546,7 @@
                 android:layout_weight="1"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:text="PAUSE SESSION"
+                android:text="PAUSE"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:cornerRadius="24dp"
@@ -548,9 +580,9 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="32dp"
-        android:paddingTop="16dp"
+        android:paddingTop="12dp"
         android:paddingEnd="32dp"
-        android:paddingBottom="24dp"
+        android:paddingBottom="20dp"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -565,7 +597,7 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="20dp"
@@ -576,7 +608,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/font_label"
                 android:text="HOME"
                 android:textColor="@color/kinetic_outline_variant"
@@ -591,7 +623,7 @@
             android:background="@drawable/bg_nav_active"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="20dp"
@@ -602,7 +634,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/font_label"
                 android:text="RECORD"
                 android:textColor="@color/kinetic_on_primary_fixed"
@@ -619,7 +651,7 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="20dp"
@@ -630,7 +662,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/font_label"
                 android:text="PROFILE"
                 android:textColor="@color/kinetic_outline_variant"
