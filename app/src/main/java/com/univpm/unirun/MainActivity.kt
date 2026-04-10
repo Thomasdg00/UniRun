@@ -2,7 +2,14 @@ package com.univpm.unirun
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Build
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.univpm.unirun.data.db.AppDatabase
 import com.univpm.unirun.data.preferences.UserPreferencesRepository
 import com.univpm.unirun.data.repository.AuthenticationRepository
@@ -35,7 +42,19 @@ class MainActivity : AppCompatActivity(), AuthViewModelProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.kinetic_background)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.kinetic_background)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        }
         setContentView(R.layout.activity_main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav_host_fragment)) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(top = bars.top, bottom = bars.bottom)
+            insets
+        }
         // NavHostFragment è configurato direttamente nel layout XML.
         // Startup navigation logic is handled by AuthFragment/OnboardingFragment
         // which check auth state and navigate accordingly.

@@ -1,170 +1,608 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/surface_background"
-    android:padding="16dp">
+    android:background="@color/kinetic_background"
+    tools:context=".ui.postrun.PostRunFragment">
 
-    <TextView
-        android:id="@+id/tvSportType"
+    <LinearLayout
+        android:id="@+id/topAppBarPostRun"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="🏃 Corsa"
-        android:textColor="@color/text_primary"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="64dp"
+        android:background="@color/kinetic_background"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-    <com.mapbox.maps.MapView
-        android:id="@+id/mapViewStatic"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="16dp" />
+        <ImageButton
+            android:id="@+id/btnMenuPostRun"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
+            android:src="@drawable/ic_menu"
+            android:tint="@color/kinetic_primary" />
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:layout_marginBottom="24dp">
-
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:orientation="vertical"
+            android:layout_weight="1"
+            android:fontFamily="@font/font_headline"
             android:gravity="center"
-            android:padding="8dp">
+            android:letterSpacing="-0.04"
+            android:text="KINETIC"
+            android:textColor="@color/kinetic_primary"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <ImageButton
+            android:id="@+id/btnSettingsPostRun"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
+            android:src="@drawable/ic_settings"
+            android:tint="@color/kinetic_primary" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/postRunScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingTop="64dp"
+        android:paddingBottom="112dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="24dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:id="@+id/mapHeroFrame"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@id/metricsPanel"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.58">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        app:cardBackgroundColor="@color/kinetic_surface_container_high"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.mapbox.maps.MapView
+                                android:id="@+id/mapViewStatic"
+                                android:layout_width="match_parent"
+                                android:layout_height="180dp"
+                                android:alpha="0.9" />
+
+                            <TextView
+                                android:id="@+id/tvMapDistanceChip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|end"
+                                android:layout_margin="12dp"
+                                android:background="@drawable/bg_nav_active"
+                                android:fontFamily="@font/font_label"
+                                android:paddingStart="12dp"
+                                android:paddingTop="6dp"
+                                android:paddingEnd="12dp"
+                                android:paddingBottom="6dp"
+                                android:text="0.00 KM"
+                                android:textColor="@color/kinetic_on_primary_fixed"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:background="@drawable/bg_nav_active"
+                        android:fontFamily="@font/font_label"
+                        android:paddingStart="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp"
+                        android:text="Final Route"
+                        android:textColor="@color/kinetic_on_primary_fixed"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/metricsPanel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/mapHeroFrame"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_label"
+                        android:letterSpacing="0.14"
+                        android:text="- SESSION DURATION"
+                        android:textColor="@color/kinetic_on_surface_variant"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/font_headline"
+                        android:letterSpacing="-0.05"
+                        android:text="00:00"
+                        android:textColor="@color/kinetic_primary"
+                        android:textSize="64sp"
+                        android:textStyle="bold" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:columnCount="2"
+                        android:rowCount="2"
+                        android:useDefaultMargins="true">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            app:cardBackgroundColor="@color/kinetic_surface_container_high"
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/font_label"
+                                    android:text="Distance"
+                                    android:textColor="@color/kinetic_on_surface_variant"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tvTotalDistance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/font_headline"
+                                    android:text="0.00"
+                                    android:textColor="@color/kinetic_on_surface"
+                                    android:textSize="26sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="KM"
+                                    android:textColor="@color/kinetic_outline"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            app:cardBackgroundColor="@color/kinetic_surface_container_high"
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/font_label"
+                                    android:text="Avg Pace"
+                                    android:textColor="@color/kinetic_on_surface_variant"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tvAvgPace"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/font_headline"
+                                    android:text="--:--"
+                                    android:textColor="@color/kinetic_primary"
+                                    android:textSize="26sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="/KM"
+                                    android:textColor="@color/kinetic_outline"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            app:cardBackgroundColor="@color/kinetic_surface_container_high"
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/font_label"
+                                    android:text="Calories"
+                                    android:textColor="@color/kinetic_on_surface_variant"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tvTotalCalories"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/font_headline"
+                                    android:text="0"
+                                    android:textColor="#FFEEA5"
+                                    android:textSize="26sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="KCAL"
+                                    android:textColor="@color/kinetic_outline"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            app:cardBackgroundColor="@color/kinetic_surface_container_high"
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/font_label"
+                                    android:text="Elevation"
+                                    android:textColor="@color/kinetic_on_surface_variant"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/tvElevation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/font_headline"
+                                    android:text="0"
+                                    android:textColor="@color/kinetic_secondary"
+                                    android:textSize="26sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="M"
+                                    android:textColor="@color/kinetic_outline"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </GridLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="@color/kinetic_surface_container"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_headline"
+                            android:text="Pace Analysis"
+                            android:textColor="@color/kinetic_on_surface"
+                            android:textSize="18sp"
+                            android:textStyle="bold|italic" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/font_label"
+                            android:text="Smooth Flow"
+                            android:textColor="@color/kinetic_secondary"
+                            android:textSize="12sp" />
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/chartPace"
+                            android:layout_width="match_parent"
+                            android:layout_height="128dp"
+                            android:layout_marginTop="16dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="@color/kinetic_surface_container_high"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_headline"
+                            android:text="Session Notes"
+                            android:textColor="@color/kinetic_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold|italic" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/font_body"
+                            android:lineSpacingExtra="4dp"
+                            android:text="Strong finish, clean route, and summary ready to save."
+                            android:textColor="@color/kinetic_on_surface_variant"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/font_label"
+                            android:text="Elevation data unavailable for this session."
+                            android:textColor="@color/kinetic_outline"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardBackgroundColor="@color/kinetic_surface_container_low"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_headline"
+                        android:text="Gear Used"
+                        android:textColor="@color/kinetic_on_surface"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerGear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:backgroundTint="@color/kinetic_primary_container"
+                        android:popupBackground="@color/kinetic_surface_container_high" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveActivity"
+                style="@style/KineticButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="24dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="SAVE ACTIVITY"
+                android:textSize="16sp"
+                app:cornerRadius="24dp"
+                app:icon="@android:drawable/ic_menu_save"
+                app:iconPadding="12dp"
+                app:iconTint="@color/kinetic_on_primary_fixed" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShareResult"
+                style="@style/KineticButtonSurface"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="12dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="SHARE RESULT"
+                android:textColor="@color/kinetic_on_surface"
+                android:textSize="16sp"
+                app:backgroundTint="@color/kinetic_surface_container_highest"
+                app:cornerRadius="24dp"
+                app:icon="@android:drawable/ic_menu_share"
+                app:iconPadding="12dp"
+                app:iconTint="@color/kinetic_on_surface"
+                app:strokeColor="@color/kinetic_outline_variant"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomNavPostRun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_bottom_nav"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="24dp"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:id="@+id/navHomePostRun"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_view"
+                android:tint="@color/kinetic_outline_variant" />
 
             <TextView
-                android:id="@+id/tvTotalDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00 km"
-                android:textColor="@color/text_primary"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distanza"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/font_label"
+                android:text="HOME"
+                android:textColor="@color/kinetic_outline_variant"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navRecordPostRun"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:orientation="vertical"
+            android:layout_weight="1"
+            android:background="@drawable/bg_nav_active"
             android:gravity="center"
-            android:padding="8dp">
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_play"
+                android:tint="@color/kinetic_on_primary_fixed" />
 
             <TextView
-                android:id="@+id/tvTotalDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00"
-                android:textColor="@color/text_primary"
-                android:textSize="24sp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/font_label"
+                android:text="RECORD"
+                android:textColor="@color/kinetic_on_primary_fixed"
+                android:textSize="10sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Durata"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navProfilePostRun"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:orientation="vertical"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/tvAvgPace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="--:--"
-                android:textColor="@color/text_primary"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Passo (min/km)"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:padding="8dp">
+            android:padding="12dp">
 
-            <TextView
-                android:id="@+id/tvTotalCalories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0 kcal"
-                android:textColor="@color/text_primary"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                android:tint="@color/kinetic_outline_variant" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Calorie"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/font_label"
+                android:text="PROFILE"
+                android:textColor="@color/kinetic_outline_variant"
+                android:textSize="10sp" />
         </LinearLayout>
+    </LinearLayout>
 
-    </GridLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Attrezzatura usata:"
-        android:textColor="@color/text_primary"
-        android:textSize="14sp"
-        android:layout_marginBottom="4dp" />
-
-    <Spinner
-        android:id="@+id/spinnerGear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/text_primary" />
-
-    <Button
-        android:id="@+id/btnSaveActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SALVA ATTIVITÀ"
-        android:backgroundTint="#4CAF50"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="8dp" />
-
-    <Button
-        android:id="@+id/btnDiscardActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SCARTA"
-        android:backgroundTint="#757575"
-        android:textColor="#FFFFFF" />
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

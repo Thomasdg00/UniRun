@@ -3,6 +3,8 @@ package com.univpm.unirun.data.repository
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.univpm.unirun.data.db.AppDatabase
 import com.univpm.unirun.data.db.UserEntity
 import com.univpm.unirun.data.preferences.UserPreferencesRepository
@@ -19,6 +21,8 @@ class AuthenticationRepository(
     private val database: AppDatabase,
     private val preferencesRepository: UserPreferencesRepository
 ) {
+
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     /**
      * Signs in user with email and password using Firebase Auth.
@@ -43,23 +47,23 @@ class AuthenticationRepository(
     suspend fun signInWithGoogle(idToken: String): Boolean {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         val authResult = firebaseAuth.signInWithCredential(credential).await()
-        
+
         val isNewUser = authResult.additionalUserInfo?.isNewUser ?: false
         val currentUser = firebaseAuth.currentUser
             ?: throw Exception("Utente non autenticato dopo Google Sign-In")
 
-        // Save basic user profile to Room on first login
         if (isNewUser) {
             val userEntity = UserEntity(
                 uid = currentUser.uid,
                 name = currentUser.displayName ?: "Utente",
-                weightKg = 70f,  // Default values
+                weightKg = 70f,
                 heightCm = 170
             )
             database.userDao().upsert(userEntity)
+            return true
         }
 
-        return isNewUser
+        return false
     }
 
     /**
@@ -85,10 +89,8 @@ class AuthenticationRepository(
         val uid = firebaseAuth.currentUser?.uid
             ?: throw Exception("Utente non autenticato")
 
-        // Save to DataStore for quick access
         preferencesRepository.saveProfile(name, weightKg, heightCm)
 
-        // Save to Room database for persistence
         val userEntity = UserEntity(
             uid = uid,
             name = name,
@@ -96,6 +98,14 @@ class AuthenticationRepository(
             heightCm = heightCm
         )
         database.userDao().upsert(userEntity)
+
+        val data = mapOf(
+            "name" to name,
+            "weightKg" to weightKg,
+            "heightCm" to heightCm,
+            "onboardingDone" to true
+        )
+        firestore.collection("users").document(uid).set(data, SetOptions.merge()).await()
     }
 
     /**
@@ -104,6 +114,15 @@ class AuthenticationRepository(
      */
     suspend fun isOnboardingDone(): Boolean {
         return preferencesRepository.userPreferencesFlow.first().onboardingDone
+    }
+
+    suspend fun isOnboardingDoneForUser(uid: String): Boolean {
+        return try {
+            val doc = firestore.collection("users").document(uid).get().await()
+            doc.exists() && doc.getBoolean("onboardingDone") == true
+        } catch (e: Exception) {
+            preferencesRepository.userPreferencesFlow.first().onboardingDone
+        }
     }
 
     /**

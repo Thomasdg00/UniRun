@@ -21,6 +21,7 @@ import com.univpm.unirun.viewmodel.AuthState
 import com.univpm.unirun.viewmodel.AuthViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 /**
  * Authentication Fragment handling email/password and Google Sign-In.
@@ -43,7 +44,12 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private lateinit var btnTogglePassword: ImageButton
     private lateinit var tvAuthError: TextView
     private lateinit var progressAuth: ProgressBar
+    private lateinit var emailCardContainer: View
+    private lateinit var passwordCardContainer: View
+    private lateinit var dividerWithLabel: View
+    private lateinit var footerContainer: View
     private var passwordVisible = false
+    private var hasUserInteractedWithForm = false
 
     // Google Sign-In launcher
     private val googleSignInLauncher = registerForActivityResult(
@@ -62,13 +68,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Check if user is already authenticated - if yes, skip to home/onboarding
-        if (authViewModel.isUserAuthenticated()) {
-            navigateBasedOnAuthState()
-            return
-        }
-
-        // Initialize views
         etEmail = view.findViewById(R.id.etEmail)
         etPassword = view.findViewById(R.id.etPassword)
         btnLogin = view.findViewById(R.id.btnLogin)
@@ -78,23 +77,30 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         btnTogglePassword = view.findViewById(R.id.btnTogglePassword)
         tvAuthError = view.findViewById(R.id.tvAuthError)
         progressAuth = view.findViewById(R.id.progressAuth)
+        emailCardContainer = view.findViewById(R.id.emailCardContainer)
+        passwordCardContainer = view.findViewById(R.id.passwordCardContainer)
+        dividerWithLabel = view.findViewById(R.id.dividerWithLabel)
+        footerContainer = view.findViewById(R.id.footerContainer)
 
-        // Set up click listeners
         btnLogin.setOnClickListener { handleLogin() }
         tvGoToRegister.setOnClickListener { findNavController().navigate(R.id.action_auth_to_register) }
         btnGoogleSignIn.setOnClickListener { handleGoogleSignIn() }
         btnForgotPassword.setOnClickListener { handleForgotPassword() }
         btnTogglePassword.setOnClickListener { togglePasswordVisibility() }
 
-        // Observe auth state
         observeAuthState()
         observeLoadingState()
+
+        if (authViewModel.isUserAuthenticated()) {
+            navigateBasedOnAuthState()
+        }
     }
 
     /**
      * Handles email/password login.
      */
     private fun handleLogin() {
+        hasUserInteractedWithForm = true
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
         authViewModel.signInWithEmail(email, password)
@@ -104,6 +110,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
      * Initiates Google Sign-In flow.
      */
     private fun handleGoogleSignIn() {
+        hasUserInteractedWithForm = true
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -150,18 +157,21 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             authViewModel.authState.collect { state ->
                 when (state) {
                     is AuthState.Authenticated -> {
+                        showAuthForm(true)
                         progressAuth.visibility = View.GONE
                         enableButtons(true)
                         tvAuthError.visibility = View.GONE
                         findNavController().navigate(R.id.action_auth_to_home)
                     }
                     is AuthState.OnboardingNeeded -> {
+                        showAuthForm(true)
                         progressAuth.visibility = View.GONE
                         enableButtons(true)
                         tvAuthError.visibility = View.GONE
                         findNavController().navigate(R.id.action_auth_to_onboarding)
                     }
                     is AuthState.Error -> {
+                        showAuthForm(true)
                         progressAuth.visibility = View.GONE
                         enableButtons(true)
                         showError(state.message)
@@ -171,9 +181,12 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                         progressAuth.visibility = View.VISIBLE
                         enableButtons(false)
                         tvAuthError.visibility = View.GONE
+                        if (!hasUserInteractedWithForm) {
+                            showAuthForm(false)
+                        }
                     }
                     AuthState.Unauthenticated -> {
-                        // Neutral state, do nothing
+                        showAuthForm(true)
                     }
                 }
             }
@@ -189,9 +202,13 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 if (isLoading) {
                     progressAuth.visibility = View.VISIBLE
                     enableButtons(false)
+                    if (!hasUserInteractedWithForm) {
+                        showAuthForm(false)
+                    }
                 } else {
                     progressAuth.visibility = View.GONE
                     enableButtons(true)
+                    showAuthForm(true)
                 }
             }
         }
@@ -203,15 +220,29 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
      */
     private fun navigateBasedOnAuthState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            val state = authViewModel.authState.first { 
-                it is AuthState.Authenticated || it is AuthState.OnboardingNeeded 
-            }
+            val state = withTimeoutOrNull(5000L) {
+                authViewModel.authState.first {
+                    it is AuthState.Authenticated ||
+                        it is AuthState.OnboardingNeeded ||
+                        it is AuthState.Unauthenticated
+                }
+            } ?: AuthState.Unauthenticated
             when (state) {
                 is AuthState.Authenticated -> findNavController().navigate(R.id.action_auth_to_home)
                 is AuthState.OnboardingNeeded -> findNavController().navigate(R.id.action_auth_to_onboarding)
                 else -> {}
             }
         }
+    }
+
+    private fun showAuthForm(visible: Boolean) {
+        val visibility = if (visible) View.VISIBLE else View.GONE
+        emailCardContainer.visibility = visibility
+        passwordCardContainer.visibility = visibility
+        btnLogin.visibility = visibility
+        dividerWithLabel.visibility = visibility
+        btnGoogleSignIn.visibility = visibility
+        footerContainer.visibility = visibility
     }
 
     /**

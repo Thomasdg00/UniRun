@@ -1,11 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.UniRun" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/accent_red</item>
-        <item name="colorPrimaryVariant">@color/accent_red</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/kinetic_primary_container</item>
+        <item name="colorPrimaryVariant">@color/kinetic_primary_dim</item>
+        <item name="colorOnPrimary">@color/kinetic_on_primary_fixed</item>
         <item name="colorSecondary">@color/accent_green</item>
         <item name="colorSurface">@color/surface_card</item>
+        <item name="android:windowBackground">@color/surface_background</item>
+        <item name="android:colorBackground">@color/surface_background</item>
+        <item name="android:statusBarColor">@color/kinetic_background</item>
+        <item name="android:navigationBarColor">@color/kinetic_background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
     <style name="ShapeAppearance.Kinetic.Button" parent="ShapeAppearance.Material3.Corner.Full">
@@ -27,4 +32,5 @@
         <item name="android:fontFamily">@font/font_label</item>
         <item name="rippleColor">@color/kinetic_outline_variant</item>
     </style>
+    <style name="Theme.UniRun" parent="Base.Theme.UniRun" />
 </resources>

@@ -6,7 +6,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.GoogleAuthProvider
 import com.univpm.unirun.data.repository.AuthenticationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,6 +37,10 @@ class AuthViewModel(private val repository: AuthenticationRepository) : ViewMode
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
+    init {
+        checkExistingSession()
+    }
+
     /**
      * Attempts to sign in with email and password.
      * Validates input before making Firebase call.
@@ -54,7 +57,9 @@ class AuthViewModel(private val repository: AuthenticationRepository) : ViewMode
             _isLoading.value = true
             try {
                 repository.signInWithEmail(email, password)
-                val onboardingDone = repository.isOnboardingDone()
+                val uid = repository.getCurrentUserId()
+                    ?: throw Exception("UID non disponibile")
+                val onboardingDone = repository.isOnboardingDoneForUser(uid)
                 _authState.value = if (onboardingDone) {
                     AuthState.Authenticated
                 } else {
@@ -118,13 +123,20 @@ class AuthViewModel(private val repository: AuthenticationRepository) : ViewMode
             try {
                 val idToken = account.idToken
                     ?: throw IllegalArgumentException("ID token non disponibile")
-                
+
                 val isNewUser = repository.signInWithGoogle(idToken)
-                val onboardingDone = repository.isOnboardingDone()
-                
-                _authState.value = when {
-                    isNewUser || !onboardingDone -> AuthState.OnboardingNeeded
-                    else -> AuthState.Authenticated
+
+                if (isNewUser) {
+                    _authState.value = AuthState.OnboardingNeeded
+                } else {
+                    val uid = repository.getCurrentUserId()
+                        ?: throw Exception("UID non disponibile")
+                    val onboardingDone = repository.isOnboardingDoneForUser(uid)
+                    _authState.value = if (onboardingDone) {
+                        AuthState.Authenticated
+                    } else {
+                        AuthState.OnboardingNeeded
+                    }
                 }
             } catch (e: Exception) {
                 _authState.value = AuthState.Error(e.localizedMessage ?: "Errore di accesso Google")
@@ -211,6 +223,38 @@ class AuthViewModel(private val repository: AuthenticationRepository) : ViewMode
      */
     fun isUserAuthenticated(): Boolean {
         return repository.isUserAuthenticated()
+    }
+
+    private fun checkExistingSession() {
+        if (!repository.isUserAuthenticated()) {
+            return
+        }
+
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val uid = repository.getCurrentUserId()
+                    ?: run {
+                        _authState.value = AuthState.Unauthenticated
+                        return@launch
+                    }
+                val onboardingDone = repository.isOnboardingDoneForUser(uid)
+                _authState.value = if (onboardingDone) {
+                    AuthState.Authenticated
+                } else {
+                    AuthState.OnboardingNeeded
+                }
+            } catch (e: Exception) {
+                val onboardingDone = repository.isOnboardingDone()
+                _authState.value = if (onboardingDone) {
+                    AuthState.Authenticated
+                } else {
+                    AuthState.OnboardingNeeded
+                }
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     // ==================== Validation Functions ====================
